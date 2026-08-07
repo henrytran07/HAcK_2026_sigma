@@ -108,9 +108,9 @@ body:has(#contact:target) .menu a[href="#contact"] {
 .group-fotos img {
     border-radius: 40px; 
 }
-.henry-fotos {
+.member-fotos {
     width: 200px; 
-    height: 250px; 
+    height: 300px; 
 }
 /*used placeholder temporarily for design*/
 .member{
@@ -120,7 +120,7 @@ body:has(#contact:target) .menu a[href="#contact"] {
 }
 .foto-placeholder {
     width: 200px;
-    height: 250px;
+    height: 300px;
     border-radius: 40px;
     display: flex;
     align-items: center;
@@ -290,46 +290,74 @@ body:has(#contact:target) .menu a[href="#contact"] {
     margin-top: 20px; 
     color: #9F9FA8;
 }
-.contact-group ul {
-    display: flex; 
-    gap: 150px; 
+#contact {
+    max-width: 640px;
+    margin: 0 auto;
+    padding: 80px 20px 60px;
+    text-align: center;
 }
-.contact-group ul li {
-    list-style: none;
+
+#contact h2 {
+    font-family: "Inter", sans-serif;
+    font-weight: 600;
+    font-size: 30px;
+    color: #F4F4F5;
+    margin: 0 0 10px;
 }
+
+.contact-intro {
+    font-size: 17px;
+    color: #9F9FA8;
+    margin: 0 0 26px;
+}
+
 .socials {
     display: flex;
     flex-wrap: wrap;
+    justify-content: center;
     gap: 12px;
     list-style: none;
     padding: 0;
-    margin: 40px;
+    margin: 0;
 }
+
 .socials a {
     display: inline-flex;
     align-items: center;
-    gap: 10px;
+    gap: 9px;
     background-color: #09090B;
-    border: 3px solid #27272A;
+    border: 1px solid #27272A;
     border-radius: 999px;
     padding: 9px 16px;
     color: #F4F4F5;
     font-size: 15px;
     text-decoration: none;
+    transition: background-color 150ms ease, border-color 150ms ease;
 }
+
 .socials a:hover {
     background-color: #18181B;
     border-color: #3F3F46;
 }
+
 .socials a:focus-visible {
     outline: 2px solid #60A5FA;
     outline-offset: 3px;
 }
+
 .socials i {
     font-size: 18px;
     color: #60A5FA;
 }
-.fa-linkedin {
-    font-size: 15px;
-    color: #0A66C2;
+
+.footer {
+    border-top: 1px solid #27272A;
+    padding: 24px 20px;
+    text-align: center;
+    color: #71717A;
+    font-size: 14px;
+}
+
+.footer p {
+    margin: 0;
 }
