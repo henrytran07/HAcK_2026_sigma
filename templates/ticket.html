@@ -26,11 +26,14 @@
             ALL EYES THIS WAY
         </div>
     </div>
-
     {% if banner %}
-    <p class="banner {{ 'banner-ok' if banner_ok else 'banner-error' }}">{{ banner }}</p>
+    <div class="view-ticket-wrap">
+        <p class="banner {{ 'banner-ok' if banner_ok else 'banner-error' }}">{{ banner }}</p>
+        {% if banner_ok %}
+        <a class="view-ticket" href="/live">Watch Σ4</a>
+        {% endif %}
+    </div>
     {% endif %}
-
     <form class="ticket-form" method="post" action="/ticket">
         {% for row in seat_labels %}
         <div class="row">

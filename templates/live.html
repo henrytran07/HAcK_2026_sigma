@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="/images/ucla.png">
+    <title>Σ4 — Live at Battle of the Builds</title>
+    <link rel="stylesheet" href="/css/live.css">
+    <link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@500;700;900&family=IBM+Plex+Mono:wght@400;500&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+    <header class="navbar">
+        <h2>Σ4</h2>
+        <nav>
+            <ul class="nav-links">
+                <li><a href="/">Band</a></li>
+                <li><a href="/build">The Build</a></li>
+                <li><a href="/live">Live</a></li>
+                <li><a class="nav-cta" href="/ticket">Tickets</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="stage">
+        <div class="stage-status">
+            <div class="stage-info">
+                <p>Sound check · Mong Auditorium</p>
+                <h2>Live from the stage</h2>
+            </div>
+
+            <div class="pico-connection {{ 'is-on' if connection else 'is-off' }}" id="pico-status">
+                <i class="fa-brands fa-usb" aria-hidden="true"></i>
+                <p id="pico-label">{% if connection %}Device connected{% else %}Device disconnected{% endif %}</p>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        const pill = document.getElementById("pico-status");
+        const label = document.getElementById("pico-label");
+
+        function render(connected, text) {
+            pill.classList.toggle("is-on", connected);
+            pill.classList.toggle("is-off", !connected);
+            label.textContent = text;
+        }
+
+        async function poll() {
+            try {
+                const res = await fetch("/api/instrument");
+                const data = await res.json();
+                render(data.connection, data.connection ? "Device connected" : "Device disconnected");
+            } catch (err) {
+                render(false, "Site offline");
+            }
+            setTimeout(poll, 1000);
+        }
+
+        poll();
+    </script>
+</body>
+</html>
