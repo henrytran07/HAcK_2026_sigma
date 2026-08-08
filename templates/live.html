@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="/images/ucla.png">
+    <title>Σ4 — Live at Battle of the Builds</title>
+    <link rel="stylesheet" href="/css/live.css">
+    <link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@500;700;900&family=IBM+Plex+Mono:wght@400;500&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+    <header class="navbar">
+        <h2>Σ4</h2>
+        <nav>
+            <ul class="nav-links">
+                <li><a href="/">Band</a></li>
+                <li><a href="/build">The Build</a></li>
+                <li><a class="nav-cta" href="/live">Live</a></li>
+                <li><a href="/ticket">Tickets</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="stage">
+        <div class="stage-status">
+            <div class="stage-info">
+                <p>Sound check · Mong Auditorium</p>
+                <h2>Live from the stage</h2>
+            </div>
+
+            <div class="pico-connection {{ 'is-on' if connection else 'is-off' }}" id="pico-status">
+                <i class="fa-brands fa-usb" aria-hidden="true"></i>
+                <p id="pico-label">{% if connection %}Device connected{% else %}Device disconnected{% endif %}</p>
+            </div>
+        </div>
+
+        <section class="viz">
+            <canvas id="scope" class="scope"></canvas>
+
+            <div class="readouts">
+                <div class="readout">
+                    <p class="readout-label">Frequency</p>
+                    <p class="readout-value"><span id="freq">0.0</span> Hz</p>
+                    <p class="readout-sub" id="note-name">—</p>
+                </div>
+
+                <div class="readout">
+                    <p class="readout-label">Volume</p>
+                    <div class="meter"><div class="meter-fill" id="meter-fill"></div></div>
+                    <p class="readout-sub"><span id="amp">0</span>%</p>
+                </div>
+
+                <div class="readout">
+                    <p class="readout-label">Status</p>
+                    <p class="readout-value"><span class="play-badge" id="play-badge">Silent</span></p>
+                    <p class="readout-sub">Key 5 gates the note</p>
+                </div>
+
+                <div class="readout">
+                    <p class="readout-label">Keypad</p>
+                    <div class="keypad" id="keypad"></div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        const pill = document.getElementById("pico-status");
+        const label = document.getElementById("pico-label");
+        const freqEl = document.getElementById("freq");
+        const noteEl = document.getElementById("note-name");
+        const ampEl = document.getElementById("amp");
+        const meterFill = document.getElementById("meter-fill");
+        const playBadge = document.getElementById("play-badge");
+        const keypadEl = document.getElementById("keypad");
+        const canvas = document.getElementById("scope");
+        const ctx = canvas.getContext("2d");
+
+        const KEYMAP = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "*", "0", "#"];
+        const keyCells = {};
+        KEYMAP.forEach(function (k) {
+            const cell = document.createElement("div");
+            cell.className = "key-cell";
+            cell.textContent = k;
+            keypadEl.appendChild(cell);
+            keyCells[k] = cell;
+        });
+
+        const NOTE_NAMES = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"];
+        function noteName(hz) {
+            if (hz <= 0) return "—";
+            const midi = Math.round(69 + 12 * Math.log2(hz / 440));
+            return NOTE_NAMES[((midi % 12) + 12) % 12] + (Math.floor(midi / 12) - 1);
+        }
+
+        const state = { connection: false, frequency: 0, amplitude: 0, playing: 0, keys: "" };
+        const drawn = { frequency: 261.63, amplitude: 0 };
+
+        function render(connected, text) {
+            pill.classList.toggle("is-on", connected);
+            pill.classList.toggle("is-off", !connected);
+            label.textContent = text;
+        }
+
+        function applyFrame(data) {
+            state.connection = !!data.connection;
+            state.frequency = Number(data.frequency) || 0;
+            state.amplitude = Math.min(Math.max(Number(data.amplitude) || 0, 0), 1);
+            state.playing = data.playing ? 1 : 0;
+            state.keys = typeof data.keys === "string" ? data.keys : "";
+
+            render(state.connection, state.connection ? "Device connected" : "Device disconnected");
+            freqEl.textContent = state.frequency.toFixed(1);
+            noteEl.textContent = "≈ " + noteName(state.frequency);
+            ampEl.textContent = Math.round(state.amplitude * 100);
+            meterFill.style.width = (state.amplitude * 100) + "%";
+
+            playBadge.textContent = state.playing ? "Playing" : "Silent";
+            playBadge.classList.toggle("is-playing", !!state.playing);
+
+            const pressed = new Set(state.keys.split(",").map(function (s) { return s.trim(); }).filter(Boolean));
+            KEYMAP.forEach(function (k) {
+                keyCells[k].classList.toggle("is-pressed", pressed.has(k));
+            });
+        }
+
+        async function poll() {
+            try {
+                const res = await fetch("/api/instrument");
+                const data = await res.json();
+                applyFrame(data);
+            } catch (err) {
+                render(false, "Site offline");
+            }
+            setTimeout(poll, 100);
+        }
+
+        function sizeCanvas() {
+            const rect = canvas.getBoundingClientRect();
+            const dpr = window.devicePixelRatio || 1;
+            canvas.width = Math.max(1, Math.round(rect.width * dpr));
+            canvas.height = Math.max(1, Math.round(rect.height * dpr));
+        }
+        window.addEventListener("resize", sizeCanvas);
+        sizeCanvas();
+
+        let phase = 0;
+        let lastTs = 0;
+        function draw(ts) {
+            const dt = lastTs ? (ts - lastTs) / 1000 : 0;
+            lastTs = ts;
+
+            drawn.frequency += (state.frequency - drawn.frequency) * 0.15;
+            const targetAmp = state.playing ? state.amplitude : 0;
+            drawn.amplitude += (targetAmp - drawn.amplitude) * 0.2;
+
+            const w = canvas.width;
+            const h = canvas.height;
+            ctx.clearRect(0, 0, w, h);
+
+            ctx.strokeStyle = "rgba(242, 237, 227, 0.08)";
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            ctx.moveTo(0, h / 2);
+            ctx.lineTo(w, h / 2);
+            ctx.stroke();
+
+            const cycles = 1 + ((drawn.frequency - 261.63) / (523.25 - 261.63)) * 5;
+            phase += dt * drawn.frequency * 0.05;
+
+            ctx.strokeStyle = drawn.amplitude > 0.01 ? "#FFD100" : "rgba(242, 237, 227, 0.25)";
+            ctx.lineWidth = Math.max(2, h * 0.006);
+            ctx.beginPath();
+            for (let x = 0; x <= w; x += 2) {
+                const t = x / w;
+                const y = h / 2 + Math.sin((t * cycles + phase) * Math.PI * 2) * drawn.amplitude * (h * 0.42);
+                if (x === 0) ctx.moveTo(x, y);
+                else ctx.lineTo(x, y);
+            }
+            ctx.stroke();
+            requestAnimationFrame(draw);
+        }
+
+        poll();
+        requestAnimationFrame(draw);
+    </script>
+    <footer class="footer">
+        <p>Σ4 Studio - UCLA HAcK 2026</p>
+    </footer>
+</body>
+</html>
