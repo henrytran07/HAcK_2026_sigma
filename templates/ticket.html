@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="/images/ucla.png">
+    <title>Σ4 — Live at Battle of the Builds | Get Tickets</title>
+    <link rel="stylesheet" href="/css/ticket.css">
+</head>
+<body>
+    <nav class="navbar">
+        <h1>Σ4</h1>
+        <p class="home-btn"><a href="/ticket-master">Home</a></p>
+        <ul>
+            <li>BATTLE OF THE BUILDS</li>
+            <li>. MONG AUDITORIUM</li>
+            <li>. AUG 9</li>
+        </ul>
+    </nav>
+
+    <div class="auditorium-map">
+        <div class="stage">
+            STAGE
+        </div>
+        <div class="notice">
+            ALL EYES THIS WAY
+        </div>
+    </div>
+
+    {% if banner %}
+    <p class="banner {{ 'banner-ok' if banner_ok else 'banner-error' }}">{{ banner }}</p>
+    {% endif %}
+
+    <form class="ticket-form" method="post" action="/ticket">
+        {% for row in seat_labels %}
+        <div class="row">
+            <span>{{ row[0][0] }}</span>
+            {% for seat in row %}
+            <button type="button"
+                    class="seat{% if not available[seat] %} taken{% endif %}{% if seat == mine %} mine{% endif %}"
+                    data-seat="{{ seat }}"
+                    aria-label="Seat {{ seat }}"
+                    {% if not available[seat] %}disabled{% endif %}></button>
+            {% endfor %}
+        </div>
+        {% endfor %}
+
+        <div class="seat-state">
+            <div class="seat-label">
+                <span class="open-seat"></span>
+                <p>Available</p>
+            </div>
+
+            <div class="seat-label">
+                <span class="your-seat"></span>
+                <p>Yours</p>
+            </div>
+
+            <div class="seat-label">
+                <span class="taken-seat"></span>
+                <p>Taken</p>
+            </div>
+        </div>
+
+        <div class="breaking-line"></div>
+        <div class="num-of-seats-n-tix-gen">
+            <p class="num-seats">No seat selected</p>
+            <input type="hidden" name="seat_label" id="seat-input">
+            <button type="submit" class="tix-gen" id="tix-gen" disabled>Generate ticket</button>
+        </div>
+    </form>
+
+    <footer class="footer">
+        <p>Σ4 Studio - UCLA HAcK 2026</p>
+    </footer>
+
+    <script>
+        const seats = document.querySelectorAll(".seat:not([disabled])");
+        const input = document.getElementById("seat-input");
+        const submit = document.getElementById("tix-gen");
+        const readout = document.querySelector(".num-seats");
+        let selected = null;
+
+        function clear() {
+            if (selected) selected.classList.remove("selected");
+            selected = null;
+            input.value = "";
+            submit.disabled = true;
+            readout.textContent = "No seat selected";
+        }
+
+        seats.forEach(function (seat) {
+            seat.addEventListener("click", function () {
+                if (selected === seat) {
+                    clear();
+                    return;
+                }
+                if (selected) selected.classList.remove("selected");
+                seat.classList.add("selected");
+                selected = seat;
+                input.value = seat.dataset.seat;
+                submit.disabled = false;
+                readout.textContent = "Seat " + seat.dataset.seat + " selected";
+            });
+        });
+        if (window.location.search) {
+            window.history.replaceState({}, "", window.location.pathname);
+        }
+    </script>
+</body>
+</html>
