@@ -29,6 +29,21 @@ AREAS = [
     ("Front end", ("templates/", "css/")),
 ]
 
+# Work done in pairs at the bench doesn't show up in git — only whoever
+# happened to run the commit does. Declare those collaborations here and
+# credit for the matching files is split evenly between everyone listed.
+CO_AUTHORS = {
+    "circuit/HAcK2026_instrument_kicad": ["Dominic Agoncillo", "Bertrand Wickam"],
+    "model/": ["Bao Nguyen"],
+}
+
+# Code written at the bench by one person and committed by another. Lines in
+# these files are credited to the names listed instead of to git blame.
+CODE_CREDIT = {
+    "circuit/code.py": ["Bertrand Wickam"],
+    "circuit/boot.py": ["Bertrand Wickam"],
+}
+
 _lock = threading.Lock()
 _cache = {"at": 0.0, "data": None}
 
@@ -67,35 +82,70 @@ def _blame(path):
     return counts
 
 
+def _code_credit_for(path):
+    for prefix, names in CODE_CREDIT.items():
+        if path == prefix or path.startswith(prefix):
+            return names
+    return None
+
+
+def _declared_for(path):
+    for prefix, names in CO_AUTHORS.items():
+        if path == prefix or path.startswith(prefix):
+            return names
+    return None
+
+
 def _added_by(path):
+    declared = _declared_for(path)
+    if declared:
+        return list(declared)
     output = _git(["log", "--diff-filter=A", "--format=%aN", "--", path])
     names = [n for n in output.split("\n") if n]
-    return names[-1] if names else None
+    return [names[-1]] if names else []
 
 
 def compute():
     lines = collections.Counter()
     artifacts = collections.Counter()
     areas = collections.defaultdict(collections.Counter)
+    area_kinds = collections.defaultdict(collections.Counter)
+    area_totals = collections.Counter()
     files = []
 
     for path in _tracked_files():
         area = _area_for(path)
         extension = os.path.splitext(path)[1].lower()
+        declared = _declared_for(path)
 
-        if extension in TEXT_SKIP_EXT:
-            author = _added_by(path)
-            if author:
-                artifacts[author] += 1
-                areas[area][author] += 1
-                files.append({"path": path, "kind": "artifact", "authors": {author: 1}})
+        if declared or extension in TEXT_SKIP_EXT:
+            names = declared or _added_by(path)
+            if names:
+                for author in names:
+                    artifacts[author] += 1
+                    areas[area][author] += 1
+                files.append({
+                    "path": path,
+                    "kind": "artifact",
+                    "shared": len(names) > 1,
+                    "authors": {a: 1 for a in names},
+                })
+                area_totals[area] += 1
+                area_kinds[area]["artifact"] += 1
             continue
 
         counts = _blame(path)
         if not counts:
             continue
+
+        credited = _code_credit_for(path)
+        if credited:
+            total = sum(counts.values())
+            counts = collections.Counter({n: total // len(credited) for n in credited})
         lines.update(counts)
         areas[area].update(counts)
+        area_totals[area] += sum(counts.values())
+        area_kinds[area]["code"] += sum(counts.values())
         files.append({"path": path, "kind": "code", "authors": dict(counts)})
 
     commits = collections.Counter(
@@ -122,10 +172,20 @@ def compute():
         counts.pop("Not Committed Yet", None)
         if not counts:
             continue
+        kinds = area_kinds.get(name, collections.Counter())
+        if kinds["artifact"] and kinds["code"]:
+            unit = "items"
+        elif kinds["artifact"]:
+            unit = "files"
+        else:
+            unit = "lines"
+
         area_rows.append({
             "area": name,
-            "total": sum(counts.values()),
-            "authors": dict(counts.most_common()),
+            "total": area_totals[name] if kinds["artifact"] else sum(counts.values()),
+            "unit": unit,
+            "shared": kinds["artifact"] > 0 and len(counts) > 1,
+            "authors": {a: c for a, c in counts.most_common()},
         })
 
     return {
