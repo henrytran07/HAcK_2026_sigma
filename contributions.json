@@ -1,0 +1,286 @@
+{
+  "authors": [
+    {
+      "name": "Henry Tran",
+      "lines": 2480,
+      "artifacts": 7,
+      "commits": 19
+    },
+    {
+      "name": "LoadingSomething",
+      "lines": 53,
+      "artifacts": 0,
+      "commits": 2
+    },
+    {
+      "name": "Dominic Agoncillo",
+      "lines": 6,
+      "artifacts": 6,
+      "commits": 2
+    }
+  ],
+  "areas": [
+    {
+      "area": "Firmware",
+      "total": 121,
+      "authors": {
+        "Henry Tran": 68,
+        "LoadingSomething": 53
+      }
+    },
+    {
+      "area": "Circuit design",
+      "total": 11,
+      "authors": {
+        "Dominic Agoncillo": 11
+      }
+    },
+    {
+      "area": "Backend",
+      "total": 424,
+      "authors": {
+        "Henry Tran": 424
+      }
+    },
+    {
+      "area": "Front end",
+      "total": 1772,
+      "authors": {
+        "Henry Tran": 1772
+      }
+    }
+  ],
+  "files": [
+    {
+      "path": ".github/copilot-instructions.md",
+      "kind": "code",
+      "authors": {
+        "Henry Tran": 39
+      }
+    },
+    {
+      "path": ".gitignore",
+      "kind": "code",
+      "authors": {
+        "Henry Tran": 38
+      }
+    },
+    {
+      "path": "README.md",
+      "kind": "code",
+      "authors": {
+        "Henry Tran": 139
+      }
+    },
+    {
+      "path": "circuit/.gitignore",
+      "kind": "code",
+      "authors": {
+        "Dominic Agoncillo": 1
+      }
+    },
+    {
+      "path": "circuit/HAcK2026_instrument_kicad/HAcK2026_instrument.kicad_pcb",
+      "kind": "artifact",
+      "authors": {
+        "Dominic Agoncillo": 1
+      }
+    },
+    {
+      "path": "circuit/HAcK2026_instrument_kicad/HAcK2026_instrument.kicad_prl",
+      "kind": "artifact",
+      "authors": {
+        "Dominic Agoncillo": 1
+      }
+    },
+    {
+      "path": "circuit/HAcK2026_instrument_kicad/HAcK2026_instrument.kicad_pro",
+      "kind": "artifact",
+      "authors": {
+        "Dominic Agoncillo": 1
+      }
+    },
+    {
+      "path": "circuit/HAcK2026_instrument_kicad/HAcK2026_instrument.kicad_sch",
+      "kind": "artifact",
+      "authors": {
+        "Dominic Agoncillo": 1
+      }
+    },
+    {
+      "path": "circuit/HAcK2026_instrument_kicad/Keypad_3x4.kicad_sym",
+      "kind": "artifact",
+      "authors": {
+        "Dominic Agoncillo": 1
+      }
+    },
+    {
+      "path": "circuit/HAcK2026_instrument_kicad/MCU_RaspberryPi_and_Boards.kicad_sym",
+      "kind": "artifact",
+      "authors": {
+        "Dominic Agoncillo": 1
+      }
+    },
+    {
+      "path": "circuit/HAcK2026_instrument_kicad/sym-lib-table",
+      "kind": "code",
+      "authors": {
+        "Dominic Agoncillo": 5
+      }
+    },
+    {
+      "path": "circuit/boot.py",
+      "kind": "code",
+      "authors": {
+        "Henry Tran": 3
+      }
+    },
+    {
+      "path": "circuit/code.py",
+      "kind": "code",
+      "authors": {
+        "LoadingSomething": 53,
+        "Henry Tran": 65
+      }
+    },
+    {
+      "path": "css/live.css",
+      "kind": "code",
+      "authors": {
+        "Henry Tran": 282
+      }
+    },
+    {
+      "path": "css/main.css",
+      "kind": "code",
+      "authors": {
+        "Henry Tran": 363
+      }
+    },
+    {
+      "path": "css/ticket.css",
+      "kind": "code",
+      "authors": {
+        "Henry Tran": 343
+      }
+    },
+    {
+      "path": "css/ticketmaster.css",
+      "kind": "code",
+      "authors": {
+        "Henry Tran": 258
+      }
+    },
+    {
+      "path": "images/4studios_foto.png",
+      "kind": "artifact",
+      "authors": {
+        "Henry Tran": 1
+      }
+    },
+    {
+      "path": "images/bao-nguyen.png",
+      "kind": "artifact",
+      "authors": {
+        "Henry Tran": 1
+      }
+    },
+    {
+      "path": "images/bert.png",
+      "kind": "artifact",
+      "authors": {
+        "Henry Tran": 1
+      }
+    },
+    {
+      "path": "images/dom.png",
+      "kind": "artifact",
+      "authors": {
+        "Henry Tran": 1
+      }
+    },
+    {
+      "path": "images/henry.png",
+      "kind": "artifact",
+      "authors": {
+        "Henry Tran": 1
+      }
+    },
+    {
+      "path": "images/sigma_4.png",
+      "kind": "artifact",
+      "authors": {
+        "Henry Tran": 1
+      }
+    },
+    {
+      "path": "images/ucla.png",
+      "kind": "artifact",
+      "authors": {
+        "Henry Tran": 1
+      }
+    },
+    {
+      "path": "source/contributions.py",
+      "kind": "code",
+      "authors": {
+        "Henry Tran": 173
+      }
+    },
+    {
+      "path": "source/main.py",
+      "kind": "code",
+      "authors": {
+        "Henry Tran": 39
+      }
+    },
+    {
+      "path": "source/pico_connection.py",
+      "kind": "code",
+      "authors": {
+        "Henry Tran": 134
+      }
+    },
+    {
+      "path": "source/ticket.py",
+      "kind": "code",
+      "authors": {
+        "Henry Tran": 78
+      }
+    },
+    {
+      "path": "templates/live.html",
+      "kind": "code",
+      "authors": {
+        "Henry Tran": 202,
+        "Not Committed Yet": 1
+      }
+    },
+    {
+      "path": "templates/main.html",
+      "kind": "code",
+      "authors": {
+        "Henry Tran": 158
+      }
+    },
+    {
+      "path": "templates/ticket.html",
+      "kind": "code",
+      "authors": {
+        "Henry Tran": 114
+      }
+    },
+    {
+      "path": "templates/ticketmaster.html",
+      "kind": "code",
+      "authors": {
+        "Henry Tran": 52,
+        "Not Committed Yet": 2
+      }
+    }
+  ],
+  "total_lines": 2542,
+  "total_artifacts": 13,
+  "generated_at": 1786251696.245429,
+  "source": "git"
+}

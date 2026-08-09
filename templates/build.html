@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="/images/ucla.png">
+    <title>Σ4 — Build</title>
+    <link rel="stylesheet" href="/css/build.css">
+    <link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@500;700;900&family=IBM+Plex+Mono:wght@400;500&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3/dist/tabler-icons.min.css">
+</head>
+<body>
+    <header class="navbar">
+        <h2>Σ4</h2>
+        <nav>
+            <ul class="nav-links">
+                <li><a href="/">Band</a></li>
+                <li><a class="nav-cta" href="/build">Build</a></li>
+                <li><a href="/live">Live</a></li>
+                <li><a href="/ticket">Tickets</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="description">
+        <div class="comp-n-date">HAcK 2026 . Aug 7-9 2026</div>
+        <h2>How we built the instrument</h2>
+        <p>Circuit design, firmware and everything behind the Σ4 synth, from breadboard to stage</p>
+    </div>
+
+    <div class="skill-labels">
+        <ul>
+            <li>Pico 2 W</li>
+            <li>CircuitPython</li>
+            <li>FastAPI</li>
+            <li>JavaScript</li>
+            <li>Python</li>
+            <li>HTML5</li>
+            <li>CSS3</li>
+            <li>3D CAD</li>
+            <li>Circuit Design & Analysis</li>
+        </ul>
+    </div>
+
+    <div class="instrument-intro">
+        <h2>Meet the Σ4</h2>
+        <p>A full-octave digital synth has 12 keys, a slide ribbon for pitch, three onboard effects.</p>
+    </div>
+
+    <div class="effects">
+        <i class="ti ti-adjustments" aria-hidden="true"></i>
+        <h2>Three effects</h2>
+    </div>
+
+    <ul class="itemized-effects">
+            <li>
+                <div class="functions">
+                    <i class="ti ti-arrows-horizontal" aria-hidden="true"></i>
+                    <span>Pitch slide</span>
+                </div>
+                <p>Soft spot on A1 lerps the note continuously across the octave</p>
+            </li>
+            <li>
+                <div class="functions">
+                    <i class="ti ti-volume" aria-hidden="true"></i>
+                    <span>Digital volume</span>
+                </div>
+                <p>Pot on A2 scales amplitude in firmware</p>
+            </li>
+            <li>
+                <div class="functions">
+                    <i class="ti ti-wave-sine" aria-hidden="true"></i>
+                    <span>Waveform switching</span>
+                </div>
+                <p>Four wavetables — sine, saw, square, noise.</p>
+            </li>
+    </ul>
+
+    <div class="circuit-schematic">
+        <div class="circuit-schematic-header">
+            <i class="ti ti-circuit-resistor" aria-hidden="true"></i>
+            <h2>Circuit schematic</h2>
+        </div>
+
+        <img src="/images/circuit_schematic.png" alt="Circuit schematic for the Σ4 instrument">
+
+        <div class="file-row">
+            <div class="file-meta">
+                <span class="file-name">HAcK2026_instrument.pdf</span>
+                <span class="file-sub">KiCad &middot; designed by Dom Agoncilo</span>
+            </div>
+            <a class="file-download" href="/model/HAcK2026_instrument.pdf" download>
+                <i class="ti ti-download" aria-hidden="true"></i>
+                Download
+            </a>
+        </div>
+    </div>
+
+    <div class="cad-section">
+        <div class="cad-header">
+            <i class="ti ti-cube" aria-hidden="true"></i>
+            <h2>3D Model</h2>
+        </div>
+
+        <div class="cad-viewer">
+            <div id="stl-canvas"></div>
+            <div class="cad-status" id="cad-status">loading model</div>
+            <div class="cad-hint">drag to rotate &middot; scroll to zoom</div>
+            <div class="cad-controls">
+                <button type="button" id="cad-spin">Pause spin</button>
+                <button type="button" id="cad-reset">Reset view</button>
+            </div>
+        </div>
+
+        <div class="file-row">
+            <div class="file-meta">
+                <span class="file-name">FinalCAD.stl</span>
+                <span class="file-sub">468 KB &middot; designed by Bao Nguyen</span>
+            </div>
+            <a class="file-download" href="/model/FinalCAD.stl" download>
+                <i class="ti ti-download" aria-hidden="true"></i>
+                Download
+            </a>
+        </div>
+    </div>
+
+    <script type="importmap">
+    {
+        "imports": {
+            "three": "https://cdn.jsdelivr.net/npm/three@0.169.0/build/three.module.js",
+            "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.169.0/examples/jsm/"
+        }
+    }
+    </script>
+
+    <script type="module">
+    import * as THREE from 'three';
+    import { STLLoader } from 'three/addons/loaders/STLLoader.js';
+    import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+
+    const container = document.getElementById('stl-canvas');
+    const status = document.getElementById('cad-status');
+    const spinButton = document.getElementById('cad-spin');
+    const resetButton = document.getElementById('cad-reset');
+
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(45, container.clientWidth / container.clientHeight, 0.1, 5000);
+
+    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+    renderer.setSize(container.clientWidth, container.clientHeight);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    container.appendChild(renderer.domElement);
+
+    scene.add(new THREE.HemisphereLight(0xffffff, 0x1a1a1a, 1.1));
+
+    const keyLight = new THREE.DirectionalLight(0xffffff, 1.5);
+    keyLight.position.set(1, 1.2, 1);
+    scene.add(keyLight);
+
+    const fillLight = new THREE.DirectionalLight(0xffd100, 0.35);
+    fillLight.position.set(-1, 0.4, -1);
+    scene.add(fillLight);
+
+    const controls = new OrbitControls(camera, renderer.domElement);
+    controls.enableDamping = true;
+    controls.dampingFactor = 0.08;
+    controls.autoRotate = true;
+    controls.autoRotateSpeed = 1.4;
+
+    let homePosition = null;
+
+    new STLLoader().load(
+        '/model/FinalCAD.stl',
+        geometry => {
+            geometry.computeVertexNormals();
+            geometry.center();
+
+            const material = new THREE.MeshStandardMaterial({
+                color: 0xFFD100, 
+                metalness: 0.15,
+                roughness: 0.55,
+                flatShading: false
+            });
+
+            const mesh = new THREE.Mesh(geometry, material);
+            mesh.rotation.x = -Math.PI / 2;
+            scene.add(mesh);
+
+            const box = new THREE.Box3().setFromObject(mesh);
+            const size = box.getSize(new THREE.Vector3());
+            const radius = Math.max(size.x, size.y, size.z);
+            const distance = radius / (2 * Math.tan((camera.fov * Math.PI) / 360));
+
+            homePosition = new THREE.Vector3(distance * 0.9, distance * 0.75, distance * 1.15);
+            camera.position.copy(homePosition);
+            camera.near = distance / 100;
+            camera.far = distance * 100;
+            camera.updateProjectionMatrix();
+
+            controls.target.set(0, 0, 0);
+            controls.minDistance = distance * 0.35;
+            controls.maxDistance = distance * 4;
+            controls.update();
+
+            status.style.display = 'none';
+        },
+        progress => {
+            if (progress.lengthComputable) {
+                const percent = Math.round((progress.loaded / progress.total) * 100);
+                status.textContent = 'loading model ' + percent + '%';
+            }
+        },
+        () => {
+            status.textContent = 'could not load model — use the download link below';
+        }
+    );
+
+    spinButton.addEventListener('click', () => {
+        controls.autoRotate = !controls.autoRotate;
+        spinButton.textContent = controls.autoRotate ? 'Pause spin' : 'Resume spin';
+    });
+
+    resetButton.addEventListener('click', () => {
+        if (!homePosition) return;
+        camera.position.copy(homePosition);
+        controls.target.set(0, 0, 0);
+        controls.update();
+    });
+
+    window.addEventListener('resize', () => {
+        camera.aspect = container.clientWidth / container.clientHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(container.clientWidth, container.clientHeight);
+    });
+
+    renderer.setAnimationLoop(() => {
+        controls.update();
+        renderer.render(scene, camera);
+    });
+    </script>
+
+    
+    <div class="the-band">
+        <div class="the-band-header">
+            <h2>THE BAND</h2>
+            <p>WHO BUILT WHAT</p>
+        </div>
+
+        <div class="role-and-name">
+            <div class="role-box">
+                <ul>
+                    <li class="band-role">LEAD GUITAR</li>
+                    <li class="name">HENRY TRAN</li>
+                    <li class="responsibilities">Web Development and Pipeline Builder</li>
+                </ul>
+            </div>
+            <div class="role-box">
+                <ul>
+                    <li class="band-role">BASS</li>
+                    <li class="name">BERTRAND WICKAM</li>
+                    <li class="responsibilities">Firmware Programmer</li>
+                </ul>
+            </div>
+            <div class="role-box">
+                <ul>
+                    <li class="band-role">DRUM</li>
+                    <li class="name">BAO NGUYEN</li>
+                    <li class="responsibilities">3D Design</li>
+                </ul>
+            </div>
+            <div class="role-box">
+                <ul>
+                    <li class="band-role">KEYS</li>
+                    <li class="name">DOM AGONCILO</li>
+                    <li class="responsibilities">Circuit Design</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="contrib-section">
+        <div class="contrib-header">
+            <i class="ti ti-git-branch" aria-hidden="true"></i>
+            <h2>Who wrote what</h2>
+        </div>
+
+        <p class="contrib-note">Pulled straight from the repo with <span>git blame</span> when this page loads. Code is measured in lines; circuit and CAD work is measured in files, since KiCad and STL are binary and have no lines to count.</p>
+
+        <div class="contrib-body" id="contrib-body">
+            <p class="contrib-status">reading commit history</p>
+        </div>
+    </div>
+
+    <script>
+    (function () {
+        const body = document.getElementById("contrib-body");
+        const PALETTE = ["#FFD100", "#7DB7E8", "#E24B4A", "#C77DFF", "#5DCAA5"];
+
+        function esc(value) {
+            return String(value).replace(/[&<>"']/g, c => ({
+                "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
+            })[c]);
+        }
+
+        function render(data) {
+            if (!data.authors || !data.authors.length) {
+                body.innerHTML = '<p class="contrib-status">no commit history available</p>';
+                return;
+            }
+
+            const colorFor = {};
+            data.authors.forEach((author, i) => {
+                colorFor[author.name] = PALETTE[i % PALETTE.length];
+            });
+
+            const cards = data.authors.map(author => `
+                <div class="contrib-card">
+                    <span class="contrib-dot" style="background-color:${colorFor[author.name]}"></span>
+                    <span class="contrib-name">${esc(author.name)}</span>
+                    <span class="contrib-stat">${author.lines.toLocaleString()} lines</span>
+                    <span class="contrib-stat">${author.artifacts} files</span>
+                    <span class="contrib-stat">${author.commits} commits</span>
+                </div>
+            `).join("");
+
+            const areas = (data.areas || []).map(area => {
+                const entries = Object.entries(area.authors);
+                const unit = area.total > 60 ? "lines" : "files";
+
+                const segments = entries.map(([name, count]) => {
+                    const percent = (count / area.total) * 100;
+                    const color = colorFor[name] || "#8B857A";
+                    return `<span class="contrib-seg" style="width:${percent.toFixed(1)}%;background-color:${color}" title="${esc(name)}: ${count} ${unit}"></span>`;
+                }).join("");
+
+                const legend = entries.map(([name, count]) =>
+                    `<span class="contrib-mini"><span class="contrib-dot" style="background-color:${colorFor[name] || "#8B857A"}"></span>${esc(name.split(" ")[0])} ${count}</span>`
+                ).join("");
+
+                return `
+                    <div class="contrib-area">
+                        <div class="contrib-area-top">
+                            <span class="contrib-area-name">${esc(area.area)}</span>
+                            <span class="contrib-area-total">${area.total} ${unit}</span>
+                        </div>
+                        <div class="contrib-bar">${segments}</div>
+                        <div class="contrib-legend">${legend}</div>
+                    </div>
+                `;
+            }).join("");
+
+            const stamp = data.source === "snapshot"
+                ? "from the last saved snapshot"
+                : "read from git just now";
+
+            body.innerHTML = `
+                <div class="contrib-cards">${cards}</div>
+                <div class="contrib-areas">${areas}</div>
+                <p class="contrib-stamp">${stamp}</p>
+            `;
+        }
+
+        fetch("/api/contributions")
+            .then(response => response.json())
+            .then(render)
+            .catch(() => {
+                body.innerHTML = '<p class="contrib-status">could not read commit history</p>';
+            });
+    })();
+    </script>
+</body>
+</html>

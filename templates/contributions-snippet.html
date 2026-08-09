@@ -1,0 +1,90 @@
+    <div class="contrib-section">
+        <div class="contrib-header">
+            <i class="ti ti-git-branch" aria-hidden="true"></i>
+            <h2>Who built what</h2>
+        </div>
+
+        <p class="contrib-note">Pulled live from the repo with <span>git blame</span> each time this page loads. Code areas are measured in lines; circuit and CAD work is measured in files, since KiCad and STL are binary.</p>
+
+        <div class="contrib-body" id="contrib-body">
+            <p class="contrib-status">reading commit history</p>
+        </div>
+    </div>
+
+    <script>
+    (function () {
+        const body = document.getElementById("contrib-body");
+
+        const PALETTE = ["#FFD100", "#7DB7E8", "#8B857A", "#C77DFF", "#5DCAA5"];
+
+        function escapeHtml(value) {
+            return String(value).replace(/[&<>"']/g, c => ({
+                "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
+            }[c]));
+        }
+
+        function render(data) {
+            if (!data.authors.length) {
+                body.innerHTML = '<p class="contrib-status">no commit history available</p>';
+                return;
+            }
+
+            const colorFor = {};
+            data.authors.forEach((author, index) => {
+                colorFor[author.name] = PALETTE[index % PALETTE.length];
+            });
+
+            const cards = data.authors.map(author => `
+                <div class="contrib-card">
+                    <span class="contrib-dot" style="background-color: ${colorFor[author.name]}"></span>
+                    <span class="contrib-name">${escapeHtml(author.name)}</span>
+                    <span class="contrib-stat">${author.lines.toLocaleString()} lines</span>
+                    <span class="contrib-stat">${author.artifacts} files</span>
+                    <span class="contrib-stat">${author.commits} commits</span>
+                </div>
+            `).join("");
+
+            const areas = data.areas.map(area => {
+                const entries = Object.entries(area.authors);
+                const unit = area.total > 60 ? "lines" : "files";
+                const segments = entries.map(([name, count]) => {
+                    const percent = (count / area.total) * 100;
+                    const color = colorFor[name] || "#8B857A";
+                    return `<span class="contrib-seg" style="width:${percent.toFixed(1)}%;background-color:${color}" title="${escapeHtml(name)}: ${count} ${unit}"></span>`;
+                }).join("");
+
+                const legend = entries.map(([name, count]) =>
+                    `<span class="contrib-mini"><span class="contrib-dot" style="background-color:${colorFor[name] || "#8B857A"}"></span>${escapeHtml(name.split(" ")[0])} ${count}</span>`
+                ).join("");
+
+                return `
+                    <div class="contrib-area">
+                        <div class="contrib-area-top">
+                            <span class="contrib-area-name">${escapeHtml(area.area)}</span>
+                            <span class="contrib-area-total">${area.total} ${unit}</span>
+                        </div>
+                        <div class="contrib-bar">${segments}</div>
+                        <div class="contrib-legend">${legend}</div>
+                    </div>
+                `;
+            }).join("");
+
+            const stamp = data.source === "snapshot"
+                ? "from the last saved snapshot"
+                : "read from git just now";
+
+            body.innerHTML = `
+                <div class="contrib-cards">${cards}</div>
+                <div class="contrib-areas">${areas}</div>
+                <p class="contrib-stamp">${stamp}</p>
+            `;
+        }
+
+        fetch("/api/contributions")
+            .then(response => response.json())
+            .then(render)
+            .catch(() => {
+                body.innerHTML = '<p class="contrib-status">could not read commit history</p>';
+            });
+    })();
+    </script>

@@ -225,70 +225,7 @@ body {
     margin: 0;
 }
 
-.the-band-header {
-    display: flex; 
-    gap: 20px; 
-    align-items: center;
-    margin-left: 40px; 
-}
-.the-band-header h2 {
-    font-family: var(--display);
-    font-weight: 700;
-    font-size: 54px; 
-    line-height: 1;
-    color: #F2EDE3; 
-}
-.the-band-header p {
-    font-family: var(--mono);
-    font-size: 11px;
-    font-weight: 500;
-    letter-spacing: 0.18em;
-    color: #8C8579; 
-}
-.role-and-name {
-    margin: 0 40px 40px;
 
-    display: flex;
-    gap: 20px;
-    align-items: stretch;
-}
-
-.role-box {
-    flex: 1;
-    display: flex;
-}
-
-.role-box ul {
-    width: 100%;
-    margin: 0;
-
-    list-style: none;
-    border: 2px solid white;
-    padding: 28px 24px 32px;
-
-    box-sizing: border-box;
-}
-.band-role {
-    font-family: var(--mono);
-    font-size: 11px;
-    font-weight: 500;
-    letter-spacing: 0.18em;
-    color: #8C8579;
-}
-.name {
-    font-family: var(--display);
-    font-size: 30px;
-    font-weight: 700;
-    line-height: 1;
-    margin: 14px 0 8px;
-    color: #F2EDE3; 
-}
-.responsibilities {
-    font-family: var(--body);
-    font-size: 14px; 
-    font-weight: 400;
-    color: #8C8579; 
-}
 @media (max-width: 720px) {
     .navbar h2 {
         font-size: 28px;

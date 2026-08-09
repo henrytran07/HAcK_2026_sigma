@@ -102,8 +102,6 @@ while True:
 
     now = time.monotonic()
     if stream is not None and now - last_tick > 0.05:
-        # To do: Include waveform name for serial
-        # name = wave_names[wave_index]
         frame = '{"frequency":%.1f,"amplitude":%.3f,"playing":%d,"keys":"%s","waveform":"%s"}\n' % (
             hz,
             amp,
