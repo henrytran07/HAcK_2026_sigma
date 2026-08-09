@@ -2,51 +2,74 @@
   "authors": [
     {
       "name": "Henry Tran",
-      "lines": 2480,
-      "artifacts": 7,
-      "commits": 19
+      "lines": 3808,
+      "artifacts": 8,
+      "commits": 22
     },
     {
-      "name": "LoadingSomething",
-      "lines": 53,
-      "artifacts": 0,
+      "name": "Bertrand Wickam",
+      "lines": 121,
+      "artifacts": 7,
       "commits": 2
     },
     {
       "name": "Dominic Agoncillo",
-      "lines": 6,
-      "artifacts": 6,
+      "lines": 1,
+      "artifacts": 7,
       "commits": 2
+    },
+    {
+      "name": "Bao Nguyen",
+      "lines": 0,
+      "artifacts": 2,
+      "commits": 0
     }
   ],
   "areas": [
     {
       "area": "Firmware",
       "total": 121,
+      "unit": "lines",
+      "shared": false,
       "authors": {
-        "Henry Tran": 68,
-        "LoadingSomething": 53
+        "Bertrand Wickam": 121
       }
     },
     {
       "area": "Circuit design",
-      "total": 11,
+      "total": 7,
+      "unit": "files",
+      "shared": true,
       "authors": {
-        "Dominic Agoncillo": 11
+        "Dominic Agoncillo": 7,
+        "Bertrand Wickam": 7
+      }
+    },
+    {
+      "area": "3D model",
+      "total": 2,
+      "unit": "files",
+      "shared": false,
+      "authors": {
+        "Bao Nguyen": 2
       }
     },
     {
       "area": "Backend",
-      "total": 424,
+      "total": 484,
+      "unit": "lines",
+      "shared": false,
       "authors": {
-        "Henry Tran": 424
+        "Henry Tran": 484
       }
     },
     {
       "area": "Front end",
-      "total": 1772,
+      "total": 2855,
+      "unit": "lines",
+      "shared": false,
       "authors": {
-        "Henry Tran": 1772
+        "Henry Tran": 2855
       }
     }
   ],
@@ -66,6 +89,13 @@
       }
     },
     {
+      "path": ".mailmap",
+      "kind": "code",
+      "authors": {
+        "Henry Tran": 2
+      }
+    },
+    {
       "path": "README.md",
       "kind": "code",
       "authors": {
@@ -82,65 +112,94 @@
     {
       "path": "circuit/HAcK2026_instrument_kicad/HAcK2026_instrument.kicad_pcb",
       "kind": "artifact",
+      "shared": true,
       "authors": {
-        "Dominic Agoncillo": 1
+        "Dominic Agoncillo": 1,
+        "Bertrand Wickam": 1
       }
     },
     {
       "path": "circuit/HAcK2026_instrument_kicad/HAcK2026_instrument.kicad_prl",
       "kind": "artifact",
+      "shared": true,
       "authors": {
-        "Dominic Agoncillo": 1
+        "Dominic Agoncillo": 1,
+        "Bertrand Wickam": 1
       }
     },
     {
       "path": "circuit/HAcK2026_instrument_kicad/HAcK2026_instrument.kicad_pro",
       "kind": "artifact",
+      "shared": true,
       "authors": {
-        "Dominic Agoncillo": 1
+        "Dominic Agoncillo": 1,
+        "Bertrand Wickam": 1
       }
     },
     {
       "path": "circuit/HAcK2026_instrument_kicad/HAcK2026_instrument.kicad_sch",
       "kind": "artifact",
+      "shared": true,
       "authors": {
-        "Dominic Agoncillo": 1
+        "Dominic Agoncillo": 1,
+        "Bertrand Wickam": 1
       }
     },
     {
       "path": "circuit/HAcK2026_instrument_kicad/Keypad_3x4.kicad_sym",
       "kind": "artifact",
+      "shared": true,
       "authors": {
-        "Dominic Agoncillo": 1
+        "Dominic Agoncillo": 1,
+        "Bertrand Wickam": 1
       }
     },
     {
       "path": "circuit/HAcK2026_instrument_kicad/MCU_RaspberryPi_and_Boards.kicad_sym",
       "kind": "artifact",
+      "shared": true,
       "authors": {
-        "Dominic Agoncillo": 1
+        "Dominic Agoncillo": 1,
+        "Bertrand Wickam": 1
       }
     },
     {
       "path": "circuit/HAcK2026_instrument_kicad/sym-lib-table",
-      "kind": "code",
+      "kind": "artifact",
+      "shared": true,
       "authors": {
-        "Dominic Agoncillo": 5
+        "Dominic Agoncillo": 1,
+        "Bertrand Wickam": 1
       }
     },
     {
       "path": "circuit/boot.py",
       "kind": "code",
       "authors": {
-        "Henry Tran": 3
+        "Bertrand Wickam": 3
       }
     },
     {
       "path": "circuit/code.py",
       "kind": "code",
       "authors": {
-        "LoadingSomething": 53,
-        "Henry Tran": 65
+        "Bertrand Wickam": 118
+      }
+    },
+    {
+      "path": "contributions.json",
+      "kind": "code",
+      "authors": {
+        "Henry Tran": 251,
+        "Not Committed Yet": 137
+      }
+    },
+    {
+      "path": "css/build.css",
+      "kind": "code",
+      "authors": {
+        "Henry Tran": 631,
+        "Not Committed Yet": 4
       }
     },
     {
@@ -174,6 +233,7 @@
     {
       "path": "images/4studios_foto.png",
       "kind": "artifact",
+      "shared": false,
       "authors": {
         "Henry Tran": 1
       }
@@ -181,6 +241,7 @@
     {
       "path": "images/bao-nguyen.png",
       "kind": "artifact",
+      "shared": false,
       "authors": {
         "Henry Tran": 1
       }
@@ -188,6 +249,15 @@
     {
       "path": "images/bert.png",
       "kind": "artifact",
+      "shared": false,
+      "authors": {
+        "Henry Tran": 1
+      }
+    },
+    {
+      "path": "images/circuit_schematic.png",
+      "kind": "artifact",
+      "shared": false,
       "authors": {
         "Henry Tran": 1
       }
@@ -195,6 +265,7 @@
     {
       "path": "images/dom.png",
       "kind": "artifact",
+      "shared": false,
       "authors": {
         "Henry Tran": 1
       }
@@ -202,6 +273,7 @@
     {
       "path": "images/henry.png",
       "kind": "artifact",
+      "shared": false,
       "authors": {
         "Henry Tran": 1
       }
@@ -209,6 +281,7 @@
     {
       "path": "images/sigma_4.png",
       "kind": "artifact",
+      "shared": false,
       "authors": {
         "Henry Tran": 1
       }
@@ -216,15 +289,32 @@
     {
       "path": "images/ucla.png",
       "kind": "artifact",
+      "shared": false,
       "authors": {
         "Henry Tran": 1
+      }
+    },
+    {
+      "path": "model/FinalCAD.stl",
+      "kind": "artifact",
+      "shared": false,
+      "authors": {
+        "Bao Nguyen": 1
+      }
+    },
+    {
+      "path": "model/HAcK2026_instrument.pdf",
+      "kind": "artifact",
+      "shared": false,
+      "authors": {
+        "Bao Nguyen": 1
       }
     },
     {
       "path": "source/contributions.py",
       "kind": "code",
       "authors": {
-        "Henry Tran": 173
+        "Henry Tran": 233
       }
     },
     {
@@ -249,11 +339,25 @@
       }
     },
     {
+      "path": "templates/build.html",
+      "kind": "code",
+      "authors": {
+        "Henry Tran": 359,
+        "Not Committed Yet": 16
+      }
+    },
+    {
+      "path": "templates/contributions-snippet.html",
+      "kind": "code",
+      "authors": {
+        "Henry Tran": 90
+      }
+    },
+    {
       "path": "templates/live.html",
       "kind": "code",
       "authors": {
-        "Henry Tran": 202,
-        "Not Committed Yet": 1
+        "Henry Tran": 203
       }
     },
     {
@@ -274,13 +378,12 @@
       "path": "templates/ticketmaster.html",
       "kind": "code",
       "authors": {
-        "Henry Tran": 52,
-        "Not Committed Yet": 2
+        "Henry Tran": 54
       }
     }
   ],
-  "total_lines": 2542,
-  "total_artifacts": 13,
-  "generated_at": 1786251696.245429,
+  "total_lines": 4087,
+  "total_artifacts": 24,
+  "generated_at": 1786254650.947669,
   "source": "git"
 }

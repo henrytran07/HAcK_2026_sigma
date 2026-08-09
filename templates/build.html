@@ -70,10 +70,10 @@
             </li>
             <li>
                 <div class="functions">
-                    <i class="ti ti-wave-sine" aria-hidden="true"></i>
-                    <span>Waveform switching</span>
+                    <i class="ti ti-repeat" aria-hidden="true"></i>
+                    <span>Vibrato</span>
                 </div>
-                <p>Four wavetables — sine, saw, square, noise.</p>
+                <p>A synthio LFO controls frequency while a key is held. It is toggled from the keypad</p>
             </li>
     </ul>
 
@@ -285,7 +285,7 @@
             <h2>Who wrote what</h2>
         </div>
 
-        <p class="contrib-note">Pulled straight from the repo with <span>git blame</span> when this page loads. Code is measured in lines; circuit and CAD work is measured in files, since KiCad and STL are binary and have no lines to count.</p>
+        <p class="contrib-note">Pulled straight from the repo with <span>git blame</span> when this page loads. Code is measured in lines; circuit and CAD work is measured in files, since KiCad and STL are binary and have no lines to count. Where work was done at the bench by one person and committed by another, credit is assigned by hand — git only records whoever ran the commit.</p>
 
         <div class="contrib-body" id="contrib-body">
             <p class="contrib-status">reading commit history</p>
@@ -295,7 +295,13 @@
     <script>
     (function () {
         const body = document.getElementById("contrib-body");
-        const PALETTE = ["#FFD100", "#7DB7E8", "#E24B4A", "#C77DFF", "#5DCAA5"];
+        const PALETTE = ["#FFD100", "#7DB7E8", "#C77DFF", "#5DCAA5", "#8B857A"];
+        const FIXED = {
+            "Henry Tran": "#FFD100",
+            "Bertrand Wickam": "#7DB7E8",
+            "Dominic Agoncillo": "#E24B4A",
+            "Bao Nguyen": "#B5854B"
+        };
 
         function esc(value) {
             return String(value).replace(/[&<>"']/g, c => ({
@@ -311,38 +317,34 @@
 
             const colorFor = {};
             data.authors.forEach((author, i) => {
-                colorFor[author.name] = PALETTE[i % PALETTE.length];
+                colorFor[author.name] = FIXED[author.name] || PALETTE[i % PALETTE.length];
             });
 
             const cards = data.authors.map(author => `
                 <div class="contrib-card">
                     <span class="contrib-dot" style="background-color:${colorFor[author.name]}"></span>
                     <span class="contrib-name">${esc(author.name)}</span>
-                    <span class="contrib-stat">${author.lines.toLocaleString()} lines</span>
-                    <span class="contrib-stat">${author.artifacts} files</span>
-                    <span class="contrib-stat">${author.commits} commits</span>
                 </div>
             `).join("");
 
             const areas = (data.areas || []).map(area => {
                 const entries = Object.entries(area.authors);
-                const unit = area.total > 60 ? "lines" : "files";
+                const denom = entries.reduce((sum, [, count]) => sum + count, 0) || 1;
 
                 const segments = entries.map(([name, count]) => {
-                    const percent = (count / area.total) * 100;
+                    const percent = (count / denom) * 100;
                     const color = colorFor[name] || "#8B857A";
-                    return `<span class="contrib-seg" style="width:${percent.toFixed(1)}%;background-color:${color}" title="${esc(name)}: ${count} ${unit}"></span>`;
+                    return `<span class="contrib-seg" style="width:${percent.toFixed(1)}%;background-color:${color}" title="${esc(name)}: ${Math.round((count / denom) * 100)}%"></span>`;
                 }).join("");
 
                 const legend = entries.map(([name, count]) =>
-                    `<span class="contrib-mini"><span class="contrib-dot" style="background-color:${colorFor[name] || "#8B857A"}"></span>${esc(name.split(" ")[0])} ${count}</span>`
+                    `<span class="contrib-mini"><span class="contrib-dot" style="background-color:${colorFor[name] || "#8B857A"}"></span>${esc(name.split(" ")[0])} ${Math.round((count / denom) * 100)}%</span>`
                 ).join("");
 
                 return `
                     <div class="contrib-area">
                         <div class="contrib-area-top">
                             <span class="contrib-area-name">${esc(area.area)}</span>
-                            <span class="contrib-area-total">${area.total} ${unit}</span>
                         </div>
                         <div class="contrib-bar">${segments}</div>
                         <div class="contrib-legend">${legend}</div>
