@@ -54,7 +54,7 @@
                 <div class="readout">
                     <p class="readout-label">Status</p>
                     <p class="readout-value"><span class="play-badge" id="play-badge">Silent</span></p>
-                    <p class="readout-sub">Key 5 gates the note</p>
+                    <p class="readout-sub" id="wave-name">Key 5 gates the note</p>
                 </div>
 
                 <div class="readout">
@@ -73,6 +73,7 @@
         const ampEl = document.getElementById("amp");
         const meterFill = document.getElementById("meter-fill");
         const playBadge = document.getElementById("play-badge");
+        const waveNameEl = document.getElementById("wave-name");
         const keypadEl = document.getElementById("keypad");
         const canvas = document.getElementById("scope");
         const ctx = canvas.getContext("2d");
@@ -94,7 +95,15 @@
             return NOTE_NAMES[((midi % 12) + 12) % 12] + (Math.floor(midi / 12) - 1);
         }
 
-        const state = { connection: false, frequency: 0, amplitude: 0, playing: 0, keys: "" };
+        function waveSample(t, wave) {
+            const x = ((t % 1) + 1) % 1;
+            if (wave === "square") return x < 0.5 ? 1 : -1;
+            if (wave === "sawtooth" || wave === "saw") return 2 * x - 1;
+            if (wave === "triangle") return x < 0.5 ? 4 * x - 1 : 3 - 4 * x;
+            return Math.sin(x * Math.PI * 2);
+        }
+
+        const state = { connection: false, frequency: 0, amplitude: 0, playing: 0, keys: "", waveform: "" };
         const drawn = { frequency: 261.63, amplitude: 0 };
 
         function render(connected, text) {
@@ -109,6 +118,7 @@
             state.amplitude = Math.min(Math.max(Number(data.amplitude) || 0, 0), 1);
             state.playing = data.playing ? 1 : 0;
             state.keys = typeof data.keys === "string" ? data.keys : "";
+            state.waveform = typeof data.waveform === "string" ? data.waveform : "";
 
             render(state.connection, state.connection ? "Device connected" : "Device disconnected");
             freqEl.textContent = state.frequency.toFixed(1);
@@ -118,6 +128,10 @@
 
             playBadge.textContent = state.playing ? "Playing" : "Silent";
             playBadge.classList.toggle("is-playing", !!state.playing);
+
+            waveNameEl.textContent = state.waveform
+                ? state.waveform.charAt(0).toUpperCase() + state.waveform.slice(1) + " wave"
+                : "Key 5 gates the note";
 
             const pressed = new Set(state.keys.split(",").map(function (s) { return s.trim(); }).filter(Boolean));
             KEYMAP.forEach(function (k) {
@@ -174,7 +188,7 @@
             ctx.beginPath();
             for (let x = 0; x <= w; x += 2) {
                 const t = x / w;
-                const y = h / 2 + Math.sin((t * cycles + phase) * Math.PI * 2) * drawn.amplitude * (h * 0.42);
+                const y = h / 2 + waveSample(t * cycles + phase, state.waveform) * drawn.amplitude * (h * 0.42);
                 if (x === 0) ctx.moveTo(x, y);
                 else ctx.lineTo(x, y);
             }
@@ -185,8 +199,5 @@
         poll();
         requestAnimationFrame(draw);
     </script>
-    <footer class="footer">
-        <p>Σ4 Studio - UCLA HAcK 2026</p>
-    </footer>
 </body>
 </html>

@@ -17,7 +17,7 @@ BAUD = 115200
 STALE_AFTER = 1.0
 RESCAN_DELAY = 0.5
 
-DEFAULT_FRAME = {"frequency": 0.0, "amplitude": 0.0, "playing": 0, "keys": ""}
+DEFAULT_FRAME = {"frequency": 0.0, "amplitude": 0.0, "playing": 0, "keys": "", "waveform": ""}
 
 def find_pico():
     for port in list_ports.comports():
