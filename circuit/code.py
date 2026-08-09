@@ -104,11 +104,12 @@ while True:
     if stream is not None and now - last_tick > 0.05:
         # To do: Include waveform name for serial
         # name = wave_names[wave_index]
-        frame = '{"frequency":%.1f,"amplitude":%.3f,"playing":%d,"keys":"%s"}\n' % (
+        frame = '{"frequency":%.1f,"amplitude":%.3f,"playing":%d,"keys":"%s","waveform":"%s"}\n' % (
             hz,
             amp,
             1 if playing else 0,
             ",".join(str(k) for k in pressed),
+            wave_names[wave_index],
         )
         try:
             stream.write(frame.encode("utf-8"))
