@@ -43,8 +43,8 @@ wave_square = np.concatenate((np.ones(NUM // 2, dtype=np.int16) * VOL,
 # 'noise' wave made with random numbers
 wave_noise = np.array([random.randint(-VOL, VOL) for i in range(NUM)], dtype=np.int16)
 
-waves = [wave_sine, wave_saw, wave_square, wave_noise]
-wave_names = ["sine", "saw", "square", "noise"]
+waves = [wave_saw, wave_square, wave_sine, wave_noise]
+wave_names = ["saw", "square", "sine", "noise"]
 waves_len = len(waves)
 # --------------------------------------------------------------------------------------------------------------------------------
 
@@ -60,15 +60,15 @@ def pot_percent(pot, samples=10):
 def lerp(start, end, frac):
     return start + (end - start) * frac
 
-wave_index = 1 # Default saw wave
+wave_index = 0 # Default saw wave
 note = synthio.Note(frequency=LOW_HZ, waveform=waves[wave_index])
 playing = False
 prev_key = None
 last_tick = 0.0
 
-PLAY_KEY = 5
-UP_KEY = "*"
-DOWN_KEY = "#"
+PLAY_KEY = 4
+UP_KEY = 1
+DOWN_KEY = 7
 
 while True:
     hz = lerp(LOW_HZ, HIGH_HZ, pot_percent(slide_pot))
