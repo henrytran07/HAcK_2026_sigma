@@ -12,7 +12,7 @@ router = APIRouter()
 BASE_DIR = Path(__file__).resolve().parent.parent
 templates = Jinja2Templates(directory=str(BASE_DIR / "templates"))
 
-PICO_VID = 0x2E8A
+PICO_VIDS = {0x2E8A, 0x239A}
 BAUD = 115200
 STALE_AFTER = 1.0
 RESCAN_DELAY = 0.5
@@ -21,7 +21,7 @@ DEFAULT_FRAME = {"frequency": 0.0, "amplitude": 0.0, "playing": 0, "keys": ""}
 
 def find_pico():
     for port in list_ports.comports():
-        if port.vid == PICO_VID:
+        if port.vid in PICO_VIDS:
             return {"connection": True, "port": port.device}
     return {"connection": False, "port": None}
 
@@ -35,7 +35,7 @@ class InstrumentLink:
         self._thread.start()
 
     def _candidate_ports(self):
-        ports = sorted(p.device for p in list_ports.comports() if p.vid == PICO_VID)
+        ports = sorted(p.device for p in list_ports.comports() if p.vid in PICO_VIDS)
         return list(reversed(ports))
 
     def _try_port(self, device):
