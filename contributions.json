@@ -2,9 +2,9 @@
   "authors": [
     {
       "name": "Henry Tran",
-      "lines": 3808,
+      "lines": 3966,
       "artifacts": 8,
-      "commits": 22
+      "commits": 24
     },
     {
       "name": "Bertrand Wickam",
@@ -65,11 +65,11 @@
     },
     {
       "area": "Front end",
-      "total": 2855,
+      "total": 2873,
       "unit": "lines",
       "shared": false,
       "authors": {
-        "Henry Tran": 2855
+        "Henry Tran": 2873
       }
     }
   ],
@@ -190,16 +190,14 @@
       "path": "contributions.json",
       "kind": "code",
       "authors": {
-        "Henry Tran": 251,
-        "Not Committed Yet": 137
+        "Henry Tran": 389
       }
     },
     {
       "path": "css/build.css",
       "kind": "code",
       "authors": {
-        "Henry Tran": 631,
-        "Not Committed Yet": 4
+        "Henry Tran": 635
       }
     },
     {
@@ -295,6 +293,13 @@
       }
     },
     {
+      "path": "mailmap",
+      "kind": "code",
+      "authors": {
+        "Henry Tran": 2
+      }
+    },
+    {
       "path": "model/FinalCAD.stl",
       "kind": "artifact",
       "shared": false,
@@ -342,8 +347,7 @@
       "path": "templates/build.html",
       "kind": "code",
       "authors": {
-        "Henry Tran": 359,
-        "Not Committed Yet": 16
+        "Henry Tran": 373
       }
     },
     {
@@ -382,8 +386,8 @@
       }
     }
   ],
-  "total_lines": 4087,
+  "total_lines": 4088,
   "total_artifacts": 24,
-  "generated_at": 1786254650.947669,
+  "generated_at": 1786255043.3273711,
   "source": "git"
 }
