@@ -490,6 +490,9 @@ h2 {
     padding: var(--section-gap) var(--gutter) 0;
 }
 
+.setlist-header h2 {
+    text-decoration: none;
+}
 .design-choices-header i,
 .setlist-header i {
     font-size: 18px;
@@ -572,6 +575,25 @@ h2 {
 
 .setlist {
     padding: 0 0 var(--section-gap) 0;
+}
+
+.setlist-header h2 a {
+    color: var(--fg);
+    text-decoration: none;
+    border-bottom: 2px solid transparent;
+    transition: border-color 150ms ease, color 150ms ease;
+}
+
+.setlist-header h2 a:hover,
+.setlist-header h2 a:focus-visible {
+    color: var(--accent);
+    border-bottom-color: var(--accent);
+}
+
+.setlist-header h2 a .ti-external-link {
+    font-size: 14px;
+    vertical-align: 1px;
+    margin-left: 2px;
 }
 
 .setlist-note {

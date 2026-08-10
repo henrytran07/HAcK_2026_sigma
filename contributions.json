@@ -2,9 +2,9 @@
   "authors": [
     {
       "name": "Henry Tran",
-      "lines": 5619,
+      "lines": 218982,
       "artifacts": 8,
-      "commits": 28
+      "commits": 29
     },
     {
       "name": "Bertrand Wickam",
@@ -56,20 +56,20 @@
     },
     {
       "area": "Backend",
-      "total": 481,
+      "total": 498,
       "unit": "lines",
       "shared": false,
       "authors": {
-        "Henry Tran": 481
+        "Henry Tran": 498
       }
     },
     {
       "area": "Front end",
-      "total": 3437,
+      "total": 3450,
       "unit": "lines",
       "shared": false,
       "authors": {
-        "Henry Tran": 3437
+        "Henry Tran": 3450
       }
     }
   ],
@@ -121,6 +121,20 @@
       "kind": "code",
       "authors": {
         "Henry Tran": 357
+      }
+    },
+    {
+      "path": "audio/sing1.m4a",
+      "kind": "code",
+      "authors": {
+        "Henry Tran": 11739
+      }
+    },
+    {
+      "path": "audio/sing2.m4a",
+      "kind": "code",
+      "authors": {
+        "Henry Tran": 32285
       }
     },
     {
@@ -211,16 +225,16 @@
       "path": "contributions.json",
       "kind": "code",
       "authors": {
-        "Henry Tran": 380,
-        "Not Committed Yet": 59
+        "Henry Tran": 409,
+        "Not Committed Yet": 35
       }
     },
     {
       "path": "css/build.css",
       "kind": "code",
       "authors": {
-        "Henry Tran": 990,
-        "Not Committed Yet": 10
+        "Henry Tran": 1000,
+        "Not Committed Yet": 22
       }
     },
     {
@@ -350,16 +364,14 @@
       "path": "source/contributions.py",
       "kind": "code",
       "authors": {
-        "Henry Tran": 229,
-        "Not Committed Yet": 16
+        "Henry Tran": 245
       }
     },
     {
       "path": "source/main.py",
       "kind": "code",
       "authors": {
-        "Henry Tran": 40,
-        "Not Committed Yet": 1
+        "Henry Tran": 41
       }
     },
     {
@@ -380,8 +392,8 @@
       "path": "templates/build.html",
       "kind": "code",
       "authors": {
-        "Henry Tran": 582,
-        "Not Committed Yet": 19
+        "Henry Tran": 585,
+        "Not Committed Yet": 7
       }
     },
     {
@@ -418,10 +430,17 @@
       "authors": {
         "Henry Tran": 54
       }
+    },
+    {
+      "path": "video/team 3.mp4",
+      "kind": "code",
+      "authors": {
+        "Henry Tran": 169280
+      }
     }
   ],
-  "total_lines": 5846,
+  "total_lines": 219168,
   "total_artifacts": 25,
-  "generated_at": 1786371262.9988759,
+  "generated_at": 1786371735.4085681,
   "source": "git"
 }
