@@ -4,8 +4,8 @@ Site and firmware for the Σ4 instrument, built for UCLA HAcK 2026 (Battle of th
 
 Two halves talk to each other over USB serial:
 
-- **`circuit/`** — CircuitPython firmware on a Raspberry Pi Pico 2. Generates audio with `synthio`, outputs over I2S, and streams its state as newline-delimited JSON.
-- **`source/`** — FastAPI server. Serves the band site, handles seat booking, and reads the instrument's serial feed to drive a live visualizer.
+- **`circuit/`** — CircuitPython firmware on a Raspberry Pi Pico 2 W. Generates audio with `synthio`, outputs over I2S, and streams its state as newline-delimited JSON. The KiCad schematic for the instrument lives in `circuit/HAcK2026_instrument_kicad/`.
+- **`source/`** — FastAPI server. Serves the band site, handles seat booking, reads the instrument's serial feed to drive a live visualizer, and computes per-member contribution credit from git history for the build page.
 
 ## Layout
 
@@ -14,19 +14,26 @@ Two halves talk to each other over USB serial:
 ├── source/
 │   ├── main.py              app, static mounts, page routes
 │   ├── ticket.py            seat booking router
-│   └── pico_connection.py   serial reader + /live + /api/instrument
+│   ├── pico_connection.py   serial reader + /live + /api/instrument
+│   └── contributions.py     git-blame credit breakdown + /api/contributions
 ├── templates/
 │   ├── main.html
 │   ├── build.html
+│   ├── contributions-snippet.html
 │   ├── ticket.html
 │   ├── ticketmaster.html
 │   └── live.html
 ├── css/
 ├── images/
+├── audio/                   recordings served at /audio
+├── model/                   CAD — FinalCAD.stl, BaoFinal.dxf, drawing PDF
 └── circuit/
     ├── boot.py
-    └── code.py
+    ├── code.py
+    └── HAcK2026_instrument_kicad/
 ```
+
+`css/`, `images/`, `model/`, `circuit/`, and `audio/` are all mounted as static so the build page can link straight to the schematic, CAD files, and recordings.
 
 ## Hardware
 
@@ -40,11 +47,21 @@ Two halves talk to each other over USB serial:
 | Slide pot (pitch) | A1 |
 | Volume pot (amplitude) | A2 |
 
-The slide pot lerps continuously between C4 (261.63 Hz) and C5 (523.25 Hz). Key 5 gates the note.
+## Controls
+
+| Control | Action |
+| --- | --- |
+| Key 4 | Gate the note on/off |
+| Key 1 | Next waveform |
+| Key 7 | Previous waveform |
+| Slide pot | Pitch, lerped continuously C4 (261.63 Hz) → C5 (523.25 Hz) |
+| Volume pot | Amplitude 0.0–1.0 |
+
+Four waveforms, in order: **saw** (default), **square**, **sine**, **noise**. The cycle clamps at both ends rather than wrapping.
 
 ## Firmware setup
 
-The board is a Pico 2W running **CircuitPython 10.2.1**. If it arrives with MicroPython on it, reflash first: hold BOOTSEL while plugging in, then drop the CircuitPython UF2 onto the RPI-RP2 drive.
+The board is a Pico 2 W running **CircuitPython 10.2.1**. If it arrives with MicroPython on it, reflash first: hold BOOTSEL while plugging in, then drop the CircuitPython UF2 onto the RP2350 drive.
 
 Copy onto the root of the CIRCUITPY drive:
 
@@ -61,6 +78,8 @@ python -m venv .venv
 source .venv/bin/activate
 pip install fastapi uvicorn jinja2 pyserial python-multipart
 ```
+
+`git` must also be on the PATH — the contributions endpoint shells out to it.
 
 ## Running
 
@@ -80,6 +99,7 @@ The kill line clears a stale server still holding port 8000. It is safe to skip 
 | `GET /build` | The build |
 | `GET /live` | Live visualizer |
 | `GET /api/instrument` | Instrument state as JSON |
+| `GET /api/contributions` | Per-author credit breakdown as JSON |
 | `GET /ticket` | Seat map |
 | `POST /ticket` | Reserve a seat |
 | `GET /ticket-master` | Ticketmaster page |
@@ -91,23 +111,24 @@ The kill line clears a stale server still holding port 8000. It is safe to skip 
 The firmware writes one JSON object per line to `usb_cdc.data` at roughly 20 Hz:
 
 ```
-{"frequency":392.4,"amplitude":0.68,"playing":1,"keys":"5"}
+{"frequency":392.4,"amplitude":0.680,"playing":1,"keys":"4","waveform":"saw"}
 ```
 
-`InstrumentLink` in `pico_connection.py` runs a background thread that finds the Pico by USB vendor ID `0x2E8A`, opens the port at 115200 baud, and reconnects on its own if the board is unplugged mid-set.
+`InstrumentLink` in `pico_connection.py` runs a background thread that finds the board by USB vendor ID (`0x2E8A` or `0x239A`), probes each candidate port until one produces valid frames, opens it at 115200 baud, and reconnects on its own if the board is unplugged mid-set.
 
 `/api/instrument` returns:
 
 | Field | Meaning |
 | --- | --- |
 | `connection` | A Pico-shaped device is present on a port |
-| `streaming` | Frames arrived within the last 0.5 s |
+| `port` | Which port it was found on |
 | `frequency` | Current pitch in Hz |
 | `amplitude` | 0.0–1.0 from the volume pot |
 | `playing` | Whether the note is gated on |
 | `keys` | Comma-separated held keys |
+| `waveform` | Active waveform name |
 
-`connection` and `streaming` are deliberately separate. A board sitting in bootloader mode, or one that has hung, still shows `connection: true` — the live page keys its status pill on `streaming` so a green light always means real data.
+Frame fields zero out when no frame has arrived within the last second. That split is deliberate: a board sitting in bootloader mode, or one that has hung, still shows `connection: true` — but its frequency, amplitude, and waveform all read empty, so the live page never animates on stale data.
 
 ## Troubleshooting
 
@@ -115,7 +136,7 @@ The firmware writes one JSON object per line to `usb_cdc.data` at roughly 20 Hz:
 
 **A page renders but its Jinja tags show as literal text.** That route is returning `FileResponse` instead of `TemplateResponse`. Check `main.py` for a leftover route shadowing the router's version.
 
-**Pill stays red with the board plugged in.** No frames are arriving. Stop the server so nothing holds the port, then:
+**Live page shows zeros with the board plugged in.** No frames are arriving. Stop the server so nothing holds the port, then:
 
 ```
 python -m serial.tools.miniterm <port> 115200
@@ -134,6 +155,6 @@ for p in list_ports.comports():
 
 ## Known gaps
 
-- Only key 5 is mapped. The other eleven keys are wired and reported but do nothing.
-- No sound effects implemented yet; the competition asks for three. `synthio.Note` supports `waveform` swaps and `synthio.LFO` on `bend` or `amplitude`.
-- Mutating `note.frequency` on a held note glides rather than re-articulates, so intervals smear.
+- Only keys 1, 4, and 7 are mapped. The other nine keys are wired and reported but do nothing.
+- Seat bookings live in memory — restarting the server frees every seat.
+- The contributions cache means credit for a fresh commit can lag by up to five minutes.
