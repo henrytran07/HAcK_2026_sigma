@@ -2,15 +2,15 @@
   "authors": [
     {
       "name": "Henry Tran",
-      "lines": 4047,
+      "lines": 5619,
       "artifacts": 8,
-      "commits": 26
+      "commits": 28
     },
     {
       "name": "Bertrand Wickam",
       "lines": 121,
       "artifacts": 7,
-      "commits": 2
+      "commits": 3
     },
     {
       "name": "Dominic Agoncillo",
@@ -21,8 +21,8 @@
     {
       "name": "Bao Nguyen",
       "lines": 0,
-      "artifacts": 2,
-      "commits": 0
+      "artifacts": 3,
+      "commits": 1
     }
   ],
   "areas": [
@@ -47,29 +47,29 @@
     },
     {
       "area": "3D model",
-      "total": 2,
+      "total": 3,
       "unit": "files",
       "shared": false,
       "authors": {
-        "Bao Nguyen": 2
+        "Bao Nguyen": 3
       }
     },
     {
       "area": "Backend",
-      "total": 484,
+      "total": 481,
       "unit": "lines",
       "shared": false,
       "authors": {
-        "Henry Tran": 484
+        "Henry Tran": 481
       }
     },
     {
       "area": "Front end",
-      "total": 2960,
+      "total": 3437,
       "unit": "lines",
       "shared": false,
       "authors": {
-        "Henry Tran": 2960
+        "Henry Tran": 3437
       }
     }
   ],
@@ -89,17 +89,38 @@
       }
     },
     {
-      "path": ".mailmap",
-      "kind": "code",
-      "authors": {
-        "Henry Tran": 2
-      }
-    },
-    {
       "path": "README.md",
       "kind": "code",
       "authors": {
-        "Henry Tran": 139
+        "Henry Tran": 160
+      }
+    },
+    {
+      "path": "audio/2124.m4a",
+      "kind": "code",
+      "authors": {
+        "Henry Tran": 241
+      }
+    },
+    {
+      "path": "audio/2125.m4a",
+      "kind": "code",
+      "authors": {
+        "Henry Tran": 190
+      }
+    },
+    {
+      "path": "audio/2126.m4a",
+      "kind": "code",
+      "authors": {
+        "Henry Tran": 294
+      }
+    },
+    {
+      "path": "audio/2127.m4a",
+      "kind": "code",
+      "authors": {
+        "Henry Tran": 357
       }
     },
     {
@@ -190,16 +211,16 @@
       "path": "contributions.json",
       "kind": "code",
       "authors": {
-        "Henry Tran": 383,
-        "Not Committed Yet": 14
+        "Henry Tran": 380,
+        "Not Committed Yet": 59
       }
     },
     {
       "path": "css/build.css",
       "kind": "code",
       "authors": {
-        "Henry Tran": 723,
-        "Not Committed Yet": 234
+        "Henry Tran": 990,
+        "Not Committed Yet": 10
       }
     },
     {
@@ -302,6 +323,14 @@
       }
     },
     {
+      "path": "model/BaoFinal.dxf",
+      "kind": "artifact",
+      "shared": false,
+      "authors": {
+        "Bao Nguyen": 1
+      }
+    },
+    {
       "path": "model/FinalCAD.stl",
       "kind": "artifact",
       "shared": false,
@@ -321,14 +350,15 @@
       "path": "source/contributions.py",
       "kind": "code",
       "authors": {
-        "Henry Tran": 233
+        "Henry Tran": 229,
+        "Not Committed Yet": 16
       }
     },
     {
       "path": "source/main.py",
       "kind": "code",
       "authors": {
-        "Henry Tran": 39,
+        "Henry Tran": 40,
         "Not Committed Yet": 1
       }
     },
@@ -350,8 +380,8 @@
       "path": "templates/build.html",
       "kind": "code",
       "authors": {
-        "Henry Tran": 372,
-        "Not Committed Yet": 226
+        "Henry Tran": 582,
+        "Not Committed Yet": 19
       }
     },
     {
@@ -390,8 +420,8 @@
       }
     }
   ],
-  "total_lines": 4644,
-  "total_artifacts": 24,
-  "generated_at": 1786345887.897669,
+  "total_lines": 5846,
+  "total_artifacts": 25,
+  "generated_at": 1786371262.9988759,
   "source": "git"
 }

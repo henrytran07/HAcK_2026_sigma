@@ -21,6 +21,17 @@ TEXT_SKIP_EXT = {
 
 SKIP_DIRS = ("__pycache__", ".vscode", "node_modules")
 
+# Git usernames that belong to the same person — merged inside the tracker
+# so the page is right even where .mailmap doesn't reach.
+ALIASES = {
+    "LoadingSomething": "Bertrand Wickam",
+    "24bnguyen18-hue": "Bao Nguyen",
+}
+
+
+def _canonical(name):
+    return ALIASES.get(name, name)
+
 AREAS = [
     ("Firmware", ("circuit/code.py", "circuit/boot.py")),
     ("Circuit design", ("circuit/HAcK2026_instrument_kicad",)),
@@ -50,7 +61,8 @@ _cache = {"at": 0.0, "data": None}
 
 def _git(args):
     result = subprocess.run(
-        ["git"] + args, cwd=BASE_DIR, capture_output=True, text=True, timeout=30
+        ["git"] + args, cwd=BASE_DIR, capture_output=True,
+        text=True, errors="replace", timeout=30
     )
     if result.returncode != 0:
         raise RuntimeError(result.stderr.strip() or "git failed")
@@ -78,7 +90,7 @@ def _blame(path):
     counts = collections.Counter()
     for line in output.split("\n"):
         if line.startswith("author "):
-            counts[line[7:].strip()] += 1
+            counts[_canonical(line[7:].strip())] += 1
     return counts
 
 
@@ -101,7 +113,7 @@ def _added_by(path):
     if declared:
         return list(declared)
     output = _git(["log", "--diff-filter=A", "--format=%aN", "--", path])
-    names = [n for n in output.split("\n") if n]
+    names = [_canonical(n) for n in output.split("\n") if n]
     return [names[-1]] if names else []
 
 
@@ -149,7 +161,7 @@ def compute():
         files.append({"path": path, "kind": "code", "authors": dict(counts)})
 
     commits = collections.Counter(
-        n for n in _git(["log", "--format=%aN"]).split("\n") if n
+        _canonical(n) for n in _git(["log", "--format=%aN"]).split("\n") if n
     )
 
     authors = []
