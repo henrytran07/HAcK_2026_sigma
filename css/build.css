@@ -382,6 +382,315 @@ h2 {
     background-color: var(--accent-hover);
 }
 
+.sound-profile-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 0;
+    padding: var(--section-gap) var(--gutter) 0;
+}
+
+.sound-profile-header i {
+    font-size: 18px;
+    color: #9F9FA8;
+    flex-shrink: 0;
+}
+
+.sound-profile-header h2 {
+    font-family: var(--body);
+    font-size: 20px;
+    color: var(--fg);
+}
+
+.wave-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+    gap: 16px;
+    list-style: none;
+    margin: 0;
+    padding: 20px var(--gutter) 0;
+}
+
+.wave-cards li {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    border: 1px solid var(--line);
+    border-radius: 12px;
+}
+
+.wave {
+    display: block;
+    width: 100%;
+    height: 30px;
+    margin-bottom: 16px;
+    color: #4A7BD8;
+}
+
+.wave-name {
+    font-family: var(--body);
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--fg);
+    margin: 0 auto; 
+}
+
+.wave-tag {
+    font-family: var(--mono);
+    font-size: 10px;
+    font-weight: 400;
+    letter-spacing: 0.1em;
+    padding: 2px 8px;
+    border-radius: 999px;
+    background-color: #2A2200;
+    border: 1px solid #5C4A00;
+    color: var(--accent);
+    vertical-align: 2px;
+}
+
+.wave-cards button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+    margin-top: 16px;
+    padding: 9px 14px;
+    font-family: var(--mono);
+    font-size: 12px;
+    color: #9F9FA8;
+    background-color: transparent;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    cursor: pointer;
+    transition: color 150ms ease, border-color 150ms ease;
+}
+
+.wave-cards button:hover,
+.wave-cards button:focus-visible {
+    color: var(--fg);
+    border-color: var(--accent);
+}
+
+.wave-cards button.is-playing {
+    color: var(--accent);
+    border-color: var(--accent);
+}
+
+.design-choices {
+    padding: 0 0 var(--section-gap) 0;
+}
+
+.design-choices-header,
+.setlist-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 0;
+    padding: var(--section-gap) var(--gutter) 0;
+}
+
+.design-choices-header i,
+.setlist-header i {
+    font-size: 18px;
+    color: #9F9FA8;
+    flex-shrink: 0;
+}
+
+.design-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
+    gap: 24px;
+    align-items: start;
+    margin: 22px 0 0;
+    padding: 0 var(--gutter);
+}
+
+.design-figure {
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    overflow: hidden;
+    background-color: #09090B;
+}
+
+.design-figure img {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
+.design-lead {
+    font-family: var(--body);
+    font-size: 16px;
+    line-height: 1.6;
+    color: var(--fg);
+    margin: 0 0 20px;
+}
+
+.design-notes ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.design-notes li {
+    padding-left: 16px;
+    border-left: 2px solid var(--accent);
+}
+
+.design-title {
+    display: block;
+    font-family: var(--body);
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--fg);
+}
+
+.design-notes li p {
+    font-family: var(--mono);
+    font-size: 12.5px;
+    line-height: 1.65;
+    color: var(--muted);
+    margin: 5px 0 0;
+}
+
+.design-swatches {
+    display: flex;
+    gap: 8px;
+    margin: 24px 0 0;
+}
+
+.design-swatches span {
+    width: 28px;
+    height: 28px;
+    border-radius: 6px;
+    border: 1px solid transparent;
+}
+
+.setlist {
+    padding: 0 0 var(--section-gap) 0;
+}
+
+.setlist-note {
+    font-family: var(--body);
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--muted);
+    max-width: 60ch;
+    margin: 12px 0 0;
+    padding: 0 var(--gutter);
+}
+
+.setlist-note span {
+    color: var(--fg);
+}
+
+.setlist-tracks {
+    list-style: none;
+    margin: 20px var(--gutter) 0;
+    padding: 0;
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.setlist-tracks li {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 16px 18px;
+    border-bottom: 1px solid var(--line);
+}
+
+.setlist-tracks li:last-child {
+    border-bottom: none;
+}
+
+.setlist-tracks button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    flex-shrink: 0;
+    font-size: 14px;
+    color: #9F9FA8;
+    background-color: transparent;
+    border: 1px solid var(--line);
+    border-radius: 50%;
+    cursor: pointer;
+    transition: color 150ms ease, border-color 150ms ease;
+}
+
+.setlist-tracks button:hover,
+.setlist-tracks button:focus-visible {
+    color: var(--fg);
+    border-color: var(--accent);
+}
+
+.setlist-tracks button.is-playing {
+    color: var(--accent);
+    border-color: var(--accent);
+}
+
+.track-meta {
+    flex: 1;
+    min-width: 0;
+}
+
+.track-name {
+    display: block;
+    font-family: var(--body);
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--fg);
+}
+
+.track-bar {
+    height: 3px;
+    margin: 7px 0 0;
+    border-radius: 999px;
+    background-color: #1A1A1D;
+    overflow: hidden;
+}
+
+.track-bar span {
+    display: block;
+    width: 0%;
+    height: 100%;
+    background-color: var(--accent);
+    transition: width 120ms linear;
+}
+
+.track-kind {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--muted);
+    white-space: nowrap;
+}
+
+.track-tag {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    padding: 3px 9px;
+    border-radius: 999px;
+    background-color: #2A2200;
+    border: 1px solid #5C4A00;
+    color: var(--accent);
+    white-space: nowrap;
+}
+
+.track-time {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--muted);
+    white-space: nowrap;
+}
+
 .the-band {
     padding: 0 var(--gutter) var(--section-gap);
 }
@@ -631,5 +940,18 @@ h2 {
 
     .role-box ul:hover {
         transform: none;
+    }
+
+    .design-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .setlist-tracks li {
+        flex-wrap: wrap;
+        gap: 12px;
+    }
+
+    .track-meta {
+        flex: 1 1 60%;
     }
 }

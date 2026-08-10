@@ -88,7 +88,7 @@
         <div class="file-row">
             <div class="file-meta">
                 <span class="file-name">HAcK2026_instrument.pdf</span>
-                <span class="file-sub">KiCad &middot; designed by Dom Agoncilo</span>
+                <span class="file-sub">KiCad &middot; designed by Dom Agoncilo and Bertrand Wickam</span>
             </div>
             <a class="file-download" href="/model/HAcK2026_instrument.pdf" download>
                 <i class="ti ti-download" aria-hidden="true"></i>
@@ -125,6 +125,231 @@
         </div>
     </div>
 
+    <div class="sound-profile-header">
+        <i class="ti ti-wave-sine" aria-hidden="true"></i>
+        <h2>Sound profiles</h2>
+    </div>
+
+    <ul class="wave-cards">
+        <li>
+            <svg viewBox="0 0 80 28" class="wave" aria-hidden="true">
+                <path d="M0 14 Q10 2 20 14 T40 14 T60 14 T80 14" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+            </svg>
+            <span class="wave-name">Sine</span>
+            <button type="button" data-src="../audio/2124.m4a">
+                <i class="ti ti-player-play" aria-hidden="true"></i> Play
+            </button>
+        </li>
+
+        <li>
+            <svg viewBox="0 0 80 28" class="wave" aria-hidden="true">
+                <path d="M0 24 L20 6 L20 24 L40 6 L40 24 L60 6 L60 24 L80 6" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+            </svg>
+            <span class="wave-name">Saw <span class="wave-tag">default</span></span>
+            <button type="button" data-src="../audio/2125.m4a">
+                <i class="ti ti-player-play" aria-hidden="true"></i> Play
+            </button>
+        </li>
+        <li>
+            <svg viewBox="0 0 80 28" class="wave" aria-hidden="true">
+                <path d="M0 6 L20 6 L20 22 L40 22 L40 6 L60 6 L60 22 L80 22" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+            </svg>
+            <span class="wave-name">Square</span>
+            <button type="button" data-src="../audio/2126.m4a">
+                <i class="ti ti-player-play" aria-hidden="true"></i> Play
+            </button>
+        </li>
+        <li>
+            <svg viewBox="0 0 80 28" class="wave" aria-hidden="true">
+                <path d="M0 14 L5 6 L9 21 L14 9 L19 23 L24 5 L29 18 L34 10 L39 22 L44 7 L49 20 L54 12 L59 23 L64 8 L69 19 L74 11 L80 15" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+            </svg>
+            <span class="wave-name">Noise</span>
+            <button type="button" data-src="../audio/2127.m4a">
+                <i class="ti ti-player-play" aria-hidden="true"></i> Play
+            </button>
+        </li>
+    </ul>
+    <script>
+        (function () {
+        let current = null;
+        let activeButton = null;
+
+        function reset() {
+            if (activeButton) {
+                activeButton.innerHTML = '<i class="ti ti-player-play" aria-hidden="true"></i> Play';
+                activeButton.classList.remove("is-playing");
+            }
+        }
+
+        document.querySelectorAll(".wave-cards button").forEach(button => {
+            button.addEventListener("click", () => {
+                if (current && activeButton === button) {
+                    current.pause();
+                    current = null;
+                    reset();
+                    activeButton = null;
+                    return;
+                }
+
+                if (current) current.pause();
+                reset();
+
+                current = new Audio(button.dataset.src);
+                activeButton = button;
+                button.innerHTML = '<i class="ti ti-player-pause" aria-hidden="true"></i> Stop';
+                button.classList.add("is-playing");
+
+                current.addEventListener("ended", () => {
+                    reset();
+                    current = null;
+                    activeButton = null;
+                });
+
+                current.play().catch(() => {
+                    reset();
+                    activeButton = null;
+                });
+            });
+        });
+    })();
+    </script>
+
+    <div class="design-choices">
+        <div class="design-choices-header">
+            <i class="ti ti-palette" aria-hidden="true"></i>
+            <h2>Design choices</h2>
+        </div>
+
+        <div class="design-grid">
+            <div class="design-figure">
+                <img src="/images/sigma_4.png" alt="The finished Sigma 4 instrument">
+            </div>
+
+            <!-- <div class="design-notes">
+                <p class="design-lead">Lab bench, not guitar. The board stays exposed and the headers stay labelled, because the instrument is a circuit and hiding that would be a lie about what it is.</p>
+
+                <ul>
+                    <li>
+                        <span class="design-title">One octave, twelve keys</span>
+                        <p>Enough range to play a real melody, few enough parts to wire and debug inside 48 hours.</p>
+                    </li>
+                    <li>
+                        <span class="design-title">A slide ribbon instead of more keys</span>
+                        <p>Continuous pitch is something a piano cannot do, and it is what makes the Sigma 4 feel played rather than typed.</p>
+                    </li>
+                    <li>
+                        <span class="design-title">Audio never leaves the Pico</span>
+                        <p>The USB stream carries telemetry only. Unplug the laptop mid-set and the visuals stop, but the instrument keeps playing.</p>
+                    </li>
+                    <li>
+                        <span class="design-title">Wavetables switch while you play</span>
+                        <p>The * and # keys step through all four voices, so one instrument covers lead, bass and percussion in a single set.</p>
+                    </li>
+                </ul>
+
+                <div class="design-swatches">
+                    <span style="background-color: #000000; border-color: var(--line);"></span>
+                    <span style="background-color: #FFD100;"></span>
+                    <span style="background-color: #F2EDE3;"></span>
+                    <span style="background-color: #8B857A;"></span>
+                </div>
+            </div> -->
+        </div>
+    </div>
+
+    <div class="setlist">
+        <div class="setlist-header">
+            <i class="ti ti-playlist" aria-hidden="true"></i>
+            <h2>The set-list</h2>
+        </div>
+
+        <ul class="setlist-tracks">
+            <li>
+                <button type="button" data-src="/audio/track-one.mp3" aria-label="Play track one">
+                    <i class="ti ti-player-play" aria-hidden="true"></i>
+                </button>
+                <div class="track-meta">
+                    <span class="track-name">Track one title</span>
+                    <div class="track-bar"><span></span></div>
+                </div>
+                <span class="track-tag">original</span>
+                <!-- <span class="track-time">2:48</span> -->
+            </li>
+            <li>
+                <button type="button" data-src="/audio/encore-one.mp3" aria-label="Play encore one">
+                    <i class="ti ti-player-play" aria-hidden="true"></i>
+                </button>
+                <div class="track-meta">
+                    <span class="track-name">Encore one title</span>
+                    <div class="track-bar"><span></span></div>
+                </div>
+                <span class="track-tag">encore</span>
+                <!-- <span class="track-time">1:52</span> -->
+            </li>
+            <li>
+                <button type="button" data-src="/audio/encore-two.mp3" aria-label="Play encore two">
+                    <i class="ti ti-player-play" aria-hidden="true"></i>
+                </button>
+                <div class="track-meta">
+                    <span class="track-name">Encore two title</span>
+                    <div class="track-bar"><span></span></div>
+                </div>
+                <span class="track-tag">encore</span>
+                <!-- <span class="track-time">1:32</span> -->
+            </li>
+        </ul>
+    </div>
+
+    <script>
+    (function () {
+        let current = null;
+        let activeButton = null;
+        let activeFill = null;
+
+        function reset() {
+            if (activeButton) {
+                activeButton.innerHTML = '<i class="ti ti-player-play" aria-hidden="true"></i>';
+                activeButton.classList.remove("is-playing");
+            }
+            if (activeFill) {
+                activeFill.style.width = "0%";
+            }
+            activeButton = null;
+            activeFill = null;
+            current = null;
+        }
+
+        document.querySelectorAll(".setlist-tracks button").forEach(button => {
+            button.addEventListener("click", () => {
+                const fill = button.parentElement.querySelector(".track-bar span");
+
+                if (current && activeButton === button) {
+                    current.pause();
+                    reset();
+                    return;
+                }
+
+                if (current) current.pause();
+                reset();
+
+                current = new Audio(button.dataset.src);
+                activeButton = button;
+                activeFill = fill;
+                button.innerHTML = '<i class="ti ti-player-pause" aria-hidden="true"></i>';
+                button.classList.add("is-playing");
+
+                current.addEventListener("timeupdate", () => {
+                    if (current && current.duration) {
+                        fill.style.width = (current.currentTime / current.duration) * 100 + "%";
+                    }
+                });
+
+                current.addEventListener("ended", reset);
+                current.play().catch(reset);
+            });
+        });
+    })();
+    </script>
     <script type="importmap">
     {
         "imports": {

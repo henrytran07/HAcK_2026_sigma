@@ -2,9 +2,9 @@
   "authors": [
     {
       "name": "Henry Tran",
-      "lines": 3970,
+      "lines": 4047,
       "artifacts": 8,
-      "commits": 25
+      "commits": 26
     },
     {
       "name": "Bertrand Wickam",
@@ -65,11 +65,11 @@
     },
     {
       "area": "Front end",
-      "total": 2873,
+      "total": 2960,
       "unit": "lines",
       "shared": false,
       "authors": {
-        "Henry Tran": 2873
+        "Henry Tran": 2960
       }
     }
   ],
@@ -190,14 +190,16 @@
       "path": "contributions.json",
       "kind": "code",
       "authors": {
-        "Henry Tran": 393
+        "Henry Tran": 383,
+        "Not Committed Yet": 14
       }
     },
     {
       "path": "css/build.css",
       "kind": "code",
       "authors": {
-        "Henry Tran": 635
+        "Henry Tran": 723,
+        "Not Committed Yet": 234
       }
     },
     {
@@ -326,7 +328,8 @@
       "path": "source/main.py",
       "kind": "code",
       "authors": {
-        "Henry Tran": 39
+        "Henry Tran": 39,
+        "Not Committed Yet": 1
       }
     },
     {
@@ -347,7 +350,8 @@
       "path": "templates/build.html",
       "kind": "code",
       "authors": {
-        "Henry Tran": 373
+        "Henry Tran": 372,
+        "Not Committed Yet": 226
       }
     },
     {
@@ -386,8 +390,8 @@
       }
     }
   ],
-  "total_lines": 4092,
+  "total_lines": 4644,
   "total_artifacts": 24,
-  "generated_at": 1786255280.603025,
+  "generated_at": 1786345887.897669,
   "source": "git"
 }
