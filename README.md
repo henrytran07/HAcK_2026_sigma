@@ -25,15 +25,23 @@ Two halves talk to each other over USB serial:
 │   └── live.html
 ├── css/
 ├── images/
-├── audio/                   recordings served at /audio
-├── model/                   CAD — FinalCAD.stl, BaoFinal.dxf, drawing PDF
+├── audio/                   note samples, waveform tests, setlist recordings
+├── model/                   CAD — STLs, DXF, and drawing PDFs
+├── video/                   performance footage
+├── contributions.json       saved credit snapshot for /api/contributions
 └── circuit/
     ├── boot.py
     ├── code.py
     └── HAcK2026_instrument_kicad/
 ```
 
-`css/`, `images/`, `model/`, `circuit/`, and `audio/` are all mounted as static so the build page can link straight to the schematic, CAD files, and recordings.
+`css/`, `images/`, `model/`, `circuit/`, `audio/`, and `video/` are all mounted as static so the build page can link straight to the schematic, CAD files, and recordings.
+
+`audio/` holds three kinds of recordings, all playable from the build page:
+
+- `c4.mov.mp3`, `d4.mp3` … `c5.mp3` — the eight notes of the octave, one card each in the build page's octave strip
+- `sine_test.m4a`, `saw_test.m4a`, `square_test.m4a`, `noise_test.m4a` — one sample per waveform for the sound-profile cards
+- `sing1.m4a`, `sing2.m4a` — the setlist recordings
 
 ## Hardware
 
@@ -96,7 +104,7 @@ The kill line clears a stale server still holding port 8000. It is safe to skip 
 | Route | Purpose |
 | --- | --- |
 | `GET /` | Band page |
-| `GET /build` | The build |
+| `GET /build` | Build page — schematic, CAD downloads, sound profiles, the octave, design choices, setlist, contribution credit |
 | `GET /live` | Live visualizer |
 | `GET /api/instrument` | Instrument state as JSON |
 | `GET /api/contributions` | Per-author credit breakdown as JSON |

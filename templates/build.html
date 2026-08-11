@@ -169,6 +169,62 @@
             </button>
         </li>
     </ul>
+
+    <div class="sound-profile-header">
+        <i class="ti ti-music" aria-hidden="true"></i>
+        <h2>The octave</h2>
+    </div>
+
+    <ul class="wave-cards note-cards">
+        <li>
+            <span class="wave-name">C4</span>
+            <button type="button" data-src="/audio/c4.mov.mp3">
+                <i class="ti ti-player-play" aria-hidden="true"></i> Play
+            </button>
+        </li>
+        <li>
+            <span class="wave-name">D4</span>
+            <button type="button" data-src="/audio/d4.mp3">
+                <i class="ti ti-player-play" aria-hidden="true"></i> Play
+            </button>
+        </li>
+        <li>
+            <span class="wave-name">E4</span>
+            <button type="button" data-src="/audio/e4.mp3">
+                <i class="ti ti-player-play" aria-hidden="true"></i> Play
+            </button>
+        </li>
+        <li>
+            <span class="wave-name">F4</span>
+            <button type="button" data-src="/audio/f4.mp3">
+                <i class="ti ti-player-play" aria-hidden="true"></i> Play
+            </button>
+        </li>
+        <li>
+            <span class="wave-name">G4</span>
+            <button type="button" data-src="/audio/g4.mp3">
+                <i class="ti ti-player-play" aria-hidden="true"></i> Play
+            </button>
+        </li>
+        <li>
+            <span class="wave-name">A4</span>
+            <button type="button" data-src="/audio/a4.mp3">
+                <i class="ti ti-player-play" aria-hidden="true"></i> Play
+            </button>
+        </li>
+        <li>
+            <span class="wave-name">B4</span>
+            <button type="button" data-src="/audio/b4.mp3">
+                <i class="ti ti-player-play" aria-hidden="true"></i> Play
+            </button>
+        </li>
+        <li>
+            <span class="wave-name">C5</span>
+            <button type="button" data-src="/audio/c5.mp3">
+                <i class="ti ti-player-play" aria-hidden="true"></i> Play
+            </button>
+        </li>
+    </ul>
     <script>
         (function () {
         let current = null;
@@ -225,35 +281,28 @@
                 <img src="/images/sigma_4.png" alt="The finished Sigma 4 instrument">
             </div>
 
-            <!-- <div class="design-notes">
-                <p class="design-lead">Lab bench, not guitar. The board stays exposed and the headers stay labelled, because the instrument is a circuit and hiding that would be a lie about what it is.</p>
+        <div class="design-notes">
+                <p class="design-lead">Guitar, not lab bench. The Sigma 4 is a handheld, laser-cut body you play standing up, because an instrument should feel performed, not operated.</p>
 
                 <ul>
+                    <li>
+                        <span class="design-title">A slide instead of a joystick</span>
+                        <p>Our first prototype mimicked strings with a joystick, but it was imprecise. The Stylophone-inspired slide pot sweeps a full octave continuously, which is something a keyed instrument cannot do.</p>
+                    </li>
                     <li>
                         <span class="design-title">One octave, twelve keys</span>
                         <p>Enough range to play a real melody, few enough parts to wire and debug inside 48 hours.</p>
                     </li>
                     <li>
-                        <span class="design-title">A slide ribbon instead of more keys</span>
-                        <p>Continuous pitch is something a piano cannot do, and it is what makes the Sigma 4 feel played rather than typed.</p>
+                        <span class="design-title">I2S audio, not PWM</span>
+                        <p>Digital audio straight to the amp keeps the sound clean, and it never leaves the Pico. Unplug the laptop mid-set and the visuals stop, but the instrument keeps playing.</p>
                     </li>
                     <li>
-                        <span class="design-title">Audio never leaves the Pico</span>
-                        <p>The USB stream carries telemetry only. Unplug the laptop mid-set and the visuals stop, but the instrument keeps playing.</p>
-                    </li>
-                    <li>
-                        <span class="design-title">Wavetables switch while you play</span>
-                        <p>The * and # keys step through all four voices, so one instrument covers lead, bass and percussion in a single set.</p>
+                        <span class="design-title">Layered birch, not a 3D print</span>
+                        <p>Flat panels cut in minutes and are cheap to re-cut after a layout change, so the enclosure could iterate as fast as the circuit inside it. The logo is cut into the body, not stickered on.</p>
                     </li>
                 </ul>
-
-                <div class="design-swatches">
-                    <span style="background-color: #000000; border-color: var(--line);"></span>
-                    <span style="background-color: #FFD100;"></span>
-                    <span style="background-color: #F2EDE3;"></span>
-                    <span style="background-color: #8B857A;"></span>
-                </div>
-            </div> -->
+            </div>
         </div>
     </div>
 
@@ -588,5 +637,8 @@
             });
     })();
     </script>
+    <footer class="footer">
+        <p>Σ4 Studio - UCLA HAcK 2026</p>
+    </footer>
 </body>
 </html>

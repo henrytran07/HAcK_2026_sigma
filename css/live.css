@@ -280,3 +280,15 @@ body {
     background-color: var(--accent);
     border-color: var(--accent);
 }
+
+.footer {
+    border-top: 1px solid #27272A;
+    padding: 24px 20px;
+    text-align: center;
+    color: #71717A;
+    font-size: 14px;
+}
+
+.footer p {
+    margin: 0;
+}
