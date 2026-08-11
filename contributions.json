@@ -2,9 +2,9 @@
   "authors": [
     {
       "name": "Henry Tran",
-      "lines": 219000,
+      "lines": 218004,
       "artifacts": 8,
-      "commits": 30
+      "commits": 31
     },
     {
       "name": "Bertrand Wickam",
@@ -65,11 +65,11 @@
     },
     {
       "area": "Front end",
-      "total": 3475,
+      "total": 3472,
       "unit": "lines",
       "shared": false,
       "authors": {
-        "Henry Tran": 3475
+        "Henry Tran": 3472
       }
     }
   ],
@@ -103,27 +103,6 @@
       }
     },
     {
-      "path": "audio/noise.m4a",
-      "kind": "code",
-      "authors": {
-        "Henry Tran": 357
-      }
-    },
-    {
-      "path": "audio/saw.m4a",
-      "kind": "code",
-      "authors": {
-        "Henry Tran": 241
-      }
-    },
-    {
-      "path": "audio/sine.m4a",
-      "kind": "code",
-      "authors": {
-        "Henry Tran": 294
-      }
-    },
-    {
       "path": "audio/sing1.m4a",
       "kind": "code",
       "authors": {
@@ -135,13 +114,6 @@
       "kind": "code",
       "authors": {
         "Henry Tran": 32285
-      }
-    },
-    {
-      "path": "audio/square.m4a",
-      "kind": "code",
-      "authors": {
-        "Henry Tran": 190
       }
     },
     {
@@ -232,8 +204,8 @@
       "path": "contributions.json",
       "kind": "code",
       "authors": {
-        "Henry Tran": 402,
-        "Not Committed Yet": 15
+        "Henry Tran": 491,
+        "Not Committed Yet": 10
       }
     },
     {
@@ -447,8 +419,8 @@
       "path": "templates/build.html",
       "kind": "code",
       "authors": {
-        "Henry Tran": 588,
-        "Not Committed Yet": 4
+        "Henry Tran": 585,
+        "Not Committed Yet": 7
       }
     },
     {
@@ -494,8 +466,8 @@
       }
     }
   ],
-  "total_lines": 219141,
+  "total_lines": 218143,
   "total_artifacts": 32,
-  "generated_at": 1786423359.5494661,
+  "generated_at": 1786423967.5382242,
   "source": "git"
 }
